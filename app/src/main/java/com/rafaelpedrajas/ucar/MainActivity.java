@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -13,6 +14,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -42,6 +52,56 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+
+
+
+        /*LISTADO ANUNCIOS*/
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String URL = "https://www.rafaelpedrajas.com/android/listadoAnuncios.php";
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>()
+        {
+            @Override
+            public void onResponse(String response)
+            {
+                Log.d("Console",response);
+            }
+        },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error)
+                    {
+                        Log.d("Console","Error en el web service");
+                    }
+                });
+        queue.add(stringRequest);
+        /*FIN LISTADO ANUNCIOS*/
+
+
+
+        //Poner los linear layout, hay que rellenarlos con datos de la BD
+        TextView destino = (TextView)findViewById(R.id.destino);
+        TextView dia = (TextView)findViewById(R.id.dia);
+        TextView hora = (TextView)findViewById(R.id.hora);
+
+        destino.setText("UCO : Rabanales");
+        dia.setText("Lunes 29");
+        hora.setText("08:30");
+
+        //Cuando se pincha en el layout de cada anuncio e4n el main
+
+        LinearLayout layoutAnuncio = (LinearLayout)findViewById(R.id.layout_anuncio_main);
+        layoutAnuncio.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getApplicationContext(), VerAnuncio.class);
+                startActivity(i);
+            }
+        });
+
+
     }
 
     @Override

@@ -8,4 +8,80 @@
     tools:context="com.rafaelpedrajas.ucar.MainActivity"
     tools:showIn="@layout/app_bar_main">
 
+    <LinearLayout
+        android:id="@+id/layout_anuncio_main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="100">
+
+
+        <LinearLayout
+            android:layout_weight="30"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:src="@mipmap/ic_default_perfil"
+                android:paddingLeft="15dp"/>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_weight="40"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/destino"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Destino"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp">
+
+            </TextView>
+
+            <TextView
+                android:id="@+id/dia"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Dia"
+                android:textSize="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="5dp">
+
+            </TextView>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_weight="30"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/hora"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Hora"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="15dp">
+
+            </TextView>
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
 </android.support.constraint.ConstraintLayout>
