@@ -31,7 +31,7 @@
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
-            android:name=".VerPerfil"
+            android:name=".Perfil"
             android:label="Perfil"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
