@@ -23,34 +23,58 @@
                 android:orientation="horizontal"
                 android:weightSum="100">
 
-                <ImageButton
-                    android:id="@+id/back"
-                    android:layout_weight="15"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/ic_arrow_back"
-                    android:visibility="gone"
-                    android:background="@null"/>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:layout_weight="15">
 
-                <TextView
-                    android:id="@+id/tituloVentana"
-                    android:layout_weight="75"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text=""
-                    android:textSize="20sp"
-                    android:textColor="#fff"
-                    android:textStyle="normal"/>
+                    <ImageButton
+                        android:id="@+id/back"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/ic_arrow_back"
+                        android:visibility="gone"
+                        android:background="@null"/>
 
-                <ImageButton
-                    android:id="@+id/edit"
-                    android:layout_weight="10"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/ic_edit"
-                    android:layout_marginLeft="200dp"
-                    android:visibility="gone"
-                    android:background="@null"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:layout_weight="70"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:id="@+id/tituloVentana"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:textSize="20sp"
+                        android:textColor="#fff"
+                        android:textStyle="normal"/>
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:layout_weight="10">
+
+                    <ImageButton
+                        android:id="@+id/edit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/ic_edit"
+                        android:visibility="gone"
+                        android:background="@null"/>
+
+                </LinearLayout>
+
+
 
             </LinearLayout>
 

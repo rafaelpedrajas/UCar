@@ -50,6 +50,11 @@
 
 
 
+
+
+
+
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -60,13 +65,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="25dp">
+            android:padding="25dp"
+            android:weightSum="100">
 
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:orientation="horizontal"
+                android:layout_weight="25"
+                android:weightSum="100"
                 android:gravity="center">
 
                 <LinearLayout
@@ -125,8 +133,9 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:orientation="horizontal"
+                android:layout_weight="12"
                 android:weightSum="100">
 
                 <LinearLayout
@@ -150,12 +159,14 @@
                     </android.support.design.widget.TextInputLayout>
                 </LinearLayout>
 
+
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:orientation="horizontal"
+                android:layout_weight="12"
                 android:weightSum="100">
 
                 <LinearLayout
@@ -180,47 +191,71 @@
 
                 </LinearLayout>
 
+
             </LinearLayout>
 
 
-            <fr.ganfra.materialspinner.MaterialSpinner
-                android:id="@+id/spCiudades"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="70dp"
-                android:layout_marginTop="10dp"
-                app:ms_multiline="false"
-                app:ms_hint="Selecciona una Ciudad"
-                app:ms_floatingLabelText="Provincia"
-                app:ms_arrowSize="16dp"
-                app:ms_alignLabels="false"/>
+                android:layout_height="0dp"
+                android:layout_weight="16"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp">
 
+                <fr.ganfra.materialspinner.MaterialSpinner
+                    android:id="@+id/spCiudades"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    app:ms_multiline="false"
+                    app:ms_hint="Selecciona una Ciudad"
+                    app:ms_floatingLabelText="Provincia"
+                    app:ms_arrowSize="16dp"
+                    app:ms_alignLabels="false"/>
 
-            <fr.ganfra.materialspinner.MaterialSpinner
-                android:id="@+id/spUniversidades"
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:ms_multiline="false"
-                app:ms_hint="Selecciona una Universidad"
-                app:ms_floatingLabelText="Universidad"
-                app:ms_arrowSize="16dp"
-                app:ms_alignLabels="false"/>
+                android:layout_height="0dp"
+                android:layout_weight="16"
+                android:orientation="horizontal">
 
+                <fr.ganfra.materialspinner.MaterialSpinner
+                    android:id="@+id/spUniversidades"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    app:ms_multiline="false"
+                    app:ms_hint="Selecciona una Universidad"
+                    app:ms_floatingLabelText="Provincia"
+                    app:ms_arrowSize="16dp"
+                    app:ms_alignLabels="false"/>
 
-            <fr.ganfra.materialspinner.MaterialSpinner
-                android:id="@+id/spCoche"
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:ms_multiline="false"
-                app:ms_hint="Selecciona un Coche"
-                app:ms_floatingLabelText="Coche"
-                app:ms_arrowSize="16dp"
-                app:ms_alignLabels="false"/>
+                android:layout_height="0dp"
+                android:layout_weight="16"
+                android:orientation="horizontal">
+
+                <fr.ganfra.materialspinner.MaterialSpinner
+                    android:id="@+id/spCoche"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    app:ms_multiline="false"
+                    app:ms_hint="Selecciona un Coche"
+                    app:ms_floatingLabelText="Provincia"
+                    app:ms_arrowSize="16dp"
+                    app:ms_alignLabels="false"/>
+
+            </LinearLayout>
 
 
 
         </LinearLayout>
 
     </ScrollView>
+
 
 
 </LinearLayout>

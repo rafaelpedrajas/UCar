@@ -25,12 +25,14 @@ import org.json.JSONArray;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.ganfra.materialspinner.MaterialSpinner;
+
 public class EditarPerfil extends AppCompatActivity implements AdapterView.OnItemSelectedListener
 {
 
     List<String> arrayNombreCiudades = new ArrayList<>();
 
-    Spinner spCiudades;
+    MaterialSpinner spCiudades;
     Spinner spUniversidad;
 
     ArrayAdapter<String> aACiudades, aAUniversidad;
@@ -71,7 +73,7 @@ public class EditarPerfil extends AppCompatActivity implements AdapterView.OnIte
 
         /* SELECT CIUDADES */
         //Cargar las ciudades de la BD
-        spCiudades=(Spinner)findViewById(R.id.spCiudades);
+        spCiudades=(MaterialSpinner) findViewById(R.id.spCiudades);
 
         spCiudades.setOnItemSelectedListener(this);
 
@@ -102,13 +104,14 @@ public class EditarPerfil extends AppCompatActivity implements AdapterView.OnIte
         });
 
         //Mostrar las ciudades
-        aACiudades=new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, arrayNombreCiudades);
-
+        aACiudades=new ArrayAdapter<String>(this,android.R.layout.simple_spinner_dropdown_item, arrayNombreCiudades);
+        aACiudades.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spCiudades.setAdapter(aACiudades);
         /* FIN SELECT CIUDADES */
 
 
 
+        /*
         Button botonModificar = (Button)findViewById(R.id.botonModificar);
         botonModificar.setOnClickListener(new View.OnClickListener()
         {
@@ -119,6 +122,7 @@ public class EditarPerfil extends AppCompatActivity implements AdapterView.OnIte
                 startActivity(i);
             }
         });
+        */
     }
 
     @Override
