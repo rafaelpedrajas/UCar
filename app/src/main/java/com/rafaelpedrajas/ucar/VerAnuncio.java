@@ -49,10 +49,25 @@ public class VerAnuncio extends AppCompatActivity
         TextView hora = (TextView)findViewById(R.id.hora);
         TextView precio = (TextView)findViewById(R.id.precio);
         TextView plazasLibres = (TextView)findViewById(R.id.plazas);
+        ImageButton image = (ImageButton)findViewById(R.id.image);
+
 
         hora.setText("09/06/45");
         precio.setText("0.5 €");
         plazasLibres.setText("3");
+
+
+        //Visitar el perfil de un usuario a traves de un anuncio publicado
+
+        image.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                Intent i = new Intent(getApplicationContext(), Perfil.class);
+                startActivity(i);
+            }
+        });
 
         Button botonInscribirse = (Button)findViewById(R.id.botonInscribirse);
         botonInscribirse.setOnClickListener(new View.OnClickListener()
