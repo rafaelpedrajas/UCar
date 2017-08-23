@@ -1,94 +1,148 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical"
-              android:padding="10dip">
-
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/tILNombre"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Nombre">
-
-        <android.support.design.widget.TextInputEditText
-            android:id="@+id/eTNombre"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textCapWords"/>
-
-    </android.support.design.widget.TextInputLayout>
-
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/tILApellido"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Apellido">
-
-        <android.support.design.widget.TextInputEditText
-            android:id="@+id/eTApellido"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textCapWords"/>
-
-    </android.support.design.widget.TextInputLayout>
-
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/tILTelefono"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Telefono">
-
-        <android.support.design.widget.TextInputEditText
-            android:id="@+id/eTTelefono"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="phone"/>
-
-    </android.support.design.widget.TextInputLayout>
-
-
-
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/tILCorreo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Correo">
-
-        <android.support.design.widget.TextInputEditText
-            android:id="@+id/eTCorreo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textEmailAddress"/>
-
-    </android.support.design.widget.TextInputLayout>
-
-    <android.support.design.widget.TextInputLayout
-    android:id="@+id/tILPass"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:hint="Contraseña">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:padding="25dp">
 
-    <android.support.design.widget.TextInputEditText
-        android:id="@+id/eTPass"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textPassword"/>
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone">
 
-    </android.support.design.widget.TextInputLayout>
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/tILNombre"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Nombre">
 
-    <Button style="@style/Widget.AppCompat.Button.Colored"
-            android:id="@+id/botonRegistro"
-            android:layout_width="wrap_content"
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/eTNombre"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textCapWords"/>
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/tILApellido"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Apellido">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/eTApellido"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textCapWords"/>
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/tILTelefono"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Telefono">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/eTTelefono"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="phone"/>
+
+        </android.support.design.widget.TextInputLayout>
+
+
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/tILCorreo"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:paddingTop="16dp"
-            android:paddingBottom="16dp"
-            android:layout_gravity="center"
-            android:text="Registrarme" >
+            android:hint="Correo">
 
-    </Button>
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/eTCorreo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"/>
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/tILPass"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Contraseña">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/eTPass"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"/>
+
+        </android.support.design.widget.TextInputLayout>
+
+        <Button style="@style/Widget.AppCompat.Button.Colored"
+                android:id="@+id/botonContinuar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_gravity="center"
+                android:text="Continuar" >
+
+        </Button>
+
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <fr.ganfra.materialspinner.MaterialSpinner
+            android:id="@+id/spProvincias"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_marginTop="10dp"
+            app:ms_multiline="false"
+            app:ms_hint="Selecciona una Provincia"
+            app:ms_floatingLabelText="Provincia"
+            app:ms_arrowSize="16dp"
+            app:ms_alignLabels="false"/>
+
+        <fr.ganfra.materialspinner.MaterialSpinner
+            android:id="@+id/spUniversidades"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_marginTop="10dp"
+            app:ms_multiline="false"
+            app:ms_hint="Selecciona una Universidad"
+            app:ms_floatingLabelText="Universidad"
+            app:ms_arrowSize="16dp"
+            app:ms_alignLabels="false"
+            android:visibility="gone"/>
+
+        <Button style="@style/Widget.AppCompat.Button.Colored"
+                android:id="@+id/botonRegistro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_gravity="center"
+                android:text="Registrarme" >
+
+        </Button>
+
+    </LinearLayout>
+
+
+
 
 
 </LinearLayout>

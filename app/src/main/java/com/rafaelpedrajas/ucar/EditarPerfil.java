@@ -74,7 +74,6 @@ public class EditarPerfil extends AppCompatActivity implements AdapterView.OnIte
         /* SELECT CIUDADES */
         //Cargar las ciudades de la BD
         spCiudades=(MaterialSpinner) findViewById(R.id.spCiudades);
-
         spCiudades.setOnItemSelectedListener(this);
 
         ciudadesBD(new VolleyCallback()

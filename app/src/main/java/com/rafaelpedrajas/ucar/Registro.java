@@ -6,7 +6,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -17,12 +20,20 @@ import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-public class Registro extends AppCompatActivity
+import fr.ganfra.materialspinner.MaterialSpinner;
+
+public class Registro extends AppCompatActivity implements AdapterView.OnItemSelectedListener
 {
 
+    List<String> arrayNombreProvincias = new ArrayList<>();
+    List<String> arrayNombreUniversidades = new ArrayList<>();
+    MaterialSpinner spProvincias, spUniversidades;
+    ArrayAdapter<String> aAProvincias, aAUniversidades;
     // Session Manager Class
     SessionManager session;
 
@@ -33,6 +44,7 @@ public class Registro extends AppCompatActivity
         setContentView(R.layout.activity_registro);
 
         Button registro = (Button)findViewById(R.id.botonRegistro);
+
         registro.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -68,7 +80,7 @@ public class Registro extends AppCompatActivity
                             // Staring MainActivity
                             Intent i = new Intent(getApplicationContext(), MainActivity.class);
                             startActivity(i);
-                            finish();
+                            //finish();
 
                         }
                         catch(Exception e)
@@ -80,10 +92,56 @@ public class Registro extends AppCompatActivity
             }
         });
 
+
+
+        /*INICIALIZACION SPINER UNIVERSIDADES*/
+        spUniversidades=(MaterialSpinner) findViewById(R.id.spUniversidades);
+        spUniversidades.setOnItemSelectedListener(this);
+        /*FIN INICIALIZACION SPINER UNIVERSIDADES*/
+
+
+
+        /* SELECT PROVINCIAS */
+        //Cargar las ciudades de la BD
+        spProvincias=(MaterialSpinner) findViewById(R.id.spProvincias);
+        spProvincias.setOnItemSelectedListener(this);
+
+        provinciasBD(new VolleyCallback()
+        {
+            @Override
+            public void onSuccess(String result)
+            {
+                JSONArray jsonArray= new JSONArray();
+
+                try
+                {
+                    jsonArray = new JSONArray(result);
+
+                    for(int i=0;i<jsonArray.length();i++)
+                    {
+                        String nombreProvincia=jsonArray.getJSONObject(i).getString("nombre");
+                        arrayNombreProvincias.add(nombreProvincia);
+                    }
+                }
+                catch(Exception e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        //Mostrar las ciudades
+        aAProvincias=new ArrayAdapter<String>(this,android.R.layout.simple_spinner_dropdown_item, arrayNombreProvincias);
+        aAProvincias.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spProvincias.setAdapter(aAProvincias);
+        /* FIN SELECT PROVINCIAS */
+
+
     }
 
     public void registrarUsuario(final VolleyCallback callback, final String nombre, final String telefono, final String correo, final String password)
     {
+        Log.d("Datos Registro",nombre);
         JSONArray jsonArray= new JSONArray();
 
          /*COMPROBAR LOGIN*/
@@ -122,6 +180,166 @@ public class Registro extends AppCompatActivity
         };
         queue.add(stringRequest);
                     /*FIN COMPROBAR LOGIN*/
+
+    }
+
+    public void provinciasBD(final VolleyCallback callback)
+    {
+        String URL = "https://www.rafaelpedrajas.com/android/listadoCiudades.php";
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL,
+                new Response.Listener<String>()
+                {
+                    @Override
+                    public void onResponse(String response)
+                    {
+                        callback.onSuccess(response);
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error)
+                    {
+                        Toast.makeText(Registro.this,error.toString(),Toast.LENGTH_LONG).show();
+                    }
+                });
+
+        RequestQueue queue = Volley.newRequestQueue(Registro.this);
+        queue.add(stringRequest);
+
+    }
+
+
+    public void universidadesBD(final VolleyCallback callback, final int idProvincia)
+    {
+        JSONArray jsonArray= new JSONArray();
+
+        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+        String URL = "https://www.rafaelpedrajas.com/android/universidadesPorProvincia.php";
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>()
+        {
+            @Override
+            public void onResponse(String response)
+            {
+                Log.d("Console Universidades",response);
+                callback.onSuccess(response);
+            }
+        },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error)
+                    {
+                        Log.d("Console","Error en el web service");
+                    }
+                }
+        ){
+            @Override
+            protected Map<String, String> getParams()
+            {
+                Map<String, String>  params = new HashMap<String, String>();
+                params.put("idProvincia", String.valueOf(idProvincia));
+
+                return params;
+            }
+        };
+        queue.add(stringRequest);
+    }
+
+
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l)
+    {
+        switch (adapterView.getId())
+        {
+            case R.id.spProvincias:
+            {
+                //Do something
+                //Toast.makeText(this, "Spinner: " + adapterView.getSelectedItem().toString(), Toast.LENGTH_SHORT).show();
+
+                Log.d("Item spinner",String.valueOf(i));
+
+                //Si ha seleccionado alguna ciudad, cargamos las universidades de esa ciudad
+                if(i!=-1)
+                {
+                    //Lo ponemos visible
+                    spUniversidades.setVisibility(View.VISIBLE);
+
+                    arrayNombreUniversidades.clear();
+                    spUniversidades.setAdapter(new ArrayAdapter<String>(this,android.R.layout.simple_spinner_dropdown_item,arrayNombreUniversidades));
+
+                    universidadesBD(new VolleyCallback()
+                    {
+                        @Override
+                        public void onSuccess(String result)
+                        {
+                            JSONArray jsonArray= new JSONArray();
+
+                            try
+                            {
+                                if(!result.equals("No hay datos"))
+                                {
+                                    jsonArray = new JSONArray(result);
+
+                                    for(int i = 0; i < jsonArray.length(); i++)
+                                    {
+                                        String nombreUniversidad = jsonArray.getJSONObject(i).getString("nombre");
+                                        Log.d("Nombre Universidad", nombreUniversidad);
+                                        arrayNombreUniversidades.add(nombreUniversidad);
+                                    }
+                                }
+                            }
+                            catch(Exception e)
+                            {
+                                e.printStackTrace();
+                            }
+                        }
+                    },i+1);
+
+                    aAUniversidades=new ArrayAdapter<String>(this,android.R.layout.simple_spinner_dropdown_item, arrayNombreUniversidades);
+                    aAUniversidades.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    spUniversidades.setAdapter(aAUniversidades);
+
+                }
+                else
+                {
+                    spUniversidades.setVisibility(View.GONE);
+                }
+
+                /*
+                switch(i)
+                {
+                    case 0:
+                        Toast.makeText(adapterView.getContext(), "Spinner item 1!", Toast.LENGTH_SHORT).show();
+                        break;
+                    case 1:
+                        Toast.makeText(adapterView.getContext(), "Spinner item 2!", Toast.LENGTH_SHORT).show();
+                        break;
+                    case 2:
+                        Toast.makeText(adapterView.getContext(), "Spinner item 3!", Toast.LENGTH_SHORT).show();
+                        break;
+                    default:
+                        Toast.makeText(adapterView.getContext(), "Nada seleccionado", Toast.LENGTH_SHORT).show();
+                        break;
+                }
+                */
+
+                break;
+            }
+            case R.id.spUniversidades:
+            {
+                //Do another thing
+                //Toast.makeText(this, "Option Selected: " + adapterView.getSelectedItem().toString(), Toast.LENGTH_SHORT).show();
+                break;
+            }
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView)
+    {
 
     }
 }

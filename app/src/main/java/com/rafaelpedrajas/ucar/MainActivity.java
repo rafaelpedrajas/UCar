@@ -47,13 +47,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
          * This will redirect user to LoginActivity is he is not
          * logged in
          * */
-        session.checkLogin();
+        //session.checkLogin();
 
         // get user data from session
+        /*
         HashMap<String, String> user = session.getUserDetails();
 
         String correo = user.get(SessionManager.KEY_CORREO);
         String pass = user.get(SessionManager.KEY_PASS);
+        */
 
         //------------FIN CONTROL SESION USUARIO-------------------------
 
