@@ -139,8 +139,6 @@ public class EditarPerfil extends AppCompatActivity implements AdapterView.OnIte
 
     public void ciudadesBD(final VolleyCallback callback)
     {
-        JSONArray jsonArray= new JSONArray();
-        List<String> arrayNombreCiudades = new ArrayList<>();
         String URL = "https://www.rafaelpedrajas.com/android/listadoCiudades.php";
 
         final String response="";
@@ -167,23 +165,6 @@ public class EditarPerfil extends AppCompatActivity implements AdapterView.OnIte
 
         RequestQueue queue = Volley.newRequestQueue(EditarPerfil.this);
         queue.add(stringRequest);
-
-        /*
-        try
-        {
-            jsonArray = new JSONArray(response);
-
-            for(int i=0;i<jsonArray.length();i++)
-            {
-                String nombreCiudad=jsonArray.getJSONObject(i).getString("nombre");
-                arrayNombreCiudades.add(nombreCiudad);
-            }
-        }
-        catch(Exception e)
-        {
-            e.printStackTrace();
-        }
-        */
 
     }
 }
