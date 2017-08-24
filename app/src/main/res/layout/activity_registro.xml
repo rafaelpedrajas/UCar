@@ -9,6 +9,7 @@
     android:padding="25dp">
 
     <LinearLayout
+        android:id="@+id/primerLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -102,9 +103,11 @@
 
 
     <LinearLayout
+        android:id="@+id/segundoLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="gone">
 
         <fr.ganfra.materialspinner.MaterialSpinner
             android:id="@+id/spProvincias"

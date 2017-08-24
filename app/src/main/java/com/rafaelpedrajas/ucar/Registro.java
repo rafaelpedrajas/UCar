@@ -4,11 +4,13 @@ import android.content.Intent;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Layout;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -43,7 +45,27 @@ public class Registro extends AppCompatActivity implements AdapterView.OnItemSel
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registro);
 
+        //Mostrar primera vista
+        final LinearLayout primerLayout = (LinearLayout) findViewById(R.id.primerLayout);
+        final LinearLayout segundoLayout = (LinearLayout) findViewById(R.id.segundoLayout);
+
+        primerLayout.setVisibility(View.VISIBLE);
+
+
+
+        //Funcionalidad botones vistas
         Button registro = (Button)findViewById(R.id.botonRegistro);
+        Button continuar = (Button)findViewById(R.id.botonContinuar);
+
+        continuar.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                primerLayout.setVisibility(View.INVISIBLE);
+                segundoLayout.setVisibility(View.VISIBLE);
+            }
+        });
 
         registro.setOnClickListener(new View.OnClickListener()
         {
