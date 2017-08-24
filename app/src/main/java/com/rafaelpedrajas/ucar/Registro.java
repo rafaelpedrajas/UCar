@@ -4,13 +4,16 @@ import android.content.Intent;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.SwitchCompat;
 import android.text.Layout;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -39,6 +42,15 @@ public class Registro extends AppCompatActivity implements AdapterView.OnItemSel
     // Session Manager Class
     SessionManager session;
 
+    LinearLayout elegirCoche;
+    LinearLayout primerLayout;
+    LinearLayout segundoLayout;
+
+    Button botonRegistro;
+    Button botonContinuar;
+
+    SwitchCompat switchCoche;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -46,28 +58,41 @@ public class Registro extends AppCompatActivity implements AdapterView.OnItemSel
         setContentView(R.layout.activity_registro);
 
         //Mostrar primera vista
-        final LinearLayout primerLayout = (LinearLayout) findViewById(R.id.primerLayout);
-        final LinearLayout segundoLayout = (LinearLayout) findViewById(R.id.segundoLayout);
+        primerLayout = (LinearLayout) findViewById(R.id.primerLayout);
+        segundoLayout = (LinearLayout) findViewById(R.id.segundoLayout);
+
+        elegirCoche = (LinearLayout) findViewById(R.id.elegirCoche);
+
+        switchCoche = (SwitchCompat)findViewById(R.id.switchCoche);
 
         primerLayout.setVisibility(View.VISIBLE);
-
+        segundoLayout.setVisibility(View.GONE);
 
 
         //Funcionalidad botones vistas
-        Button registro = (Button)findViewById(R.id.botonRegistro);
-        Button continuar = (Button)findViewById(R.id.botonContinuar);
+        botonRegistro = (Button)findViewById(R.id.botonRegistro);
+        botonContinuar = (Button)findViewById(R.id.botonContinuar);
 
-        continuar.setOnClickListener(new View.OnClickListener()
+        botonContinuar.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
             {
-                primerLayout.setVisibility(View.INVISIBLE);
+                primerLayout.setVisibility(View.GONE);
                 segundoLayout.setVisibility(View.VISIBLE);
             }
         });
 
-        registro.setOnClickListener(new View.OnClickListener()
+        switchCoche.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
+        {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b)
+            {
+
+            }
+        });
+
+        botonRegistro.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
@@ -328,6 +353,9 @@ public class Registro extends AppCompatActivity implements AdapterView.OnItemSel
                 else
                 {
                     spUniversidades.setVisibility(View.GONE);
+                    elegirCoche.setVisibility(View.GONE);
+                    botonRegistro.setVisibility(View.GONE);
+                    switchCoche.setChecked(false);
                 }
 
                 /*
@@ -354,6 +382,18 @@ public class Registro extends AppCompatActivity implements AdapterView.OnItemSel
             {
                 //Do another thing
                 //Toast.makeText(this, "Option Selected: " + adapterView.getSelectedItem().toString(), Toast.LENGTH_SHORT).show();
+                if(i!=-1)
+                {
+                    //Ponemos la capa del coche y el boton de registrar visible
+                    elegirCoche.setVisibility(View.VISIBLE);
+                    botonRegistro.setVisibility(View.VISIBLE);
+                }
+                else
+                {
+                    elegirCoche.setVisibility(View.GONE);
+                    botonRegistro.setVisibility(View.GONE);
+                    switchCoche.setChecked(false);
+                }
                 break;
             }
         }

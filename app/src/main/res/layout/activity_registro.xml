@@ -107,7 +107,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <fr.ganfra.materialspinner.MaterialSpinner
             android:id="@+id/spProvincias"
@@ -132,13 +132,80 @@
             app:ms_alignLabels="false"
             android:visibility="gone"/>
 
+
+        <LinearLayout
+            android:id="@+id/elegirCoche"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="20dp"
+            android:visibility="visible">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="¿Tienes Coche?"
+                android:textSize="20sp"
+                android:layout_weight="90"/>
+
+            <android.support.v7.widget.SwitchCompat
+                android:id="@+id/switchCoche"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:layout_weight="10"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/datosCoche"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="20dp"
+            android:visibility="visible">
+            
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/tILMarca"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="Marca"
+                android:paddingRight="10dp"
+                android:layout_weight="50">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/eTMarca"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/tILModelo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="Modelo"
+                android:paddingLeft="10dp"
+                android:layout_weight="50">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/eTModelo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </android.support.design.widget.TextInputLayout>
+
+        </LinearLayout>
+
+
         <Button style="@style/Widget.AppCompat.Button.Colored"
                 android:id="@+id/botonRegistro"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:layout_gravity="center"
-                android:text="Registrarme" >
+                android:text="Registrarme"
+                android:visibility="gone">
 
         </Button>
 
