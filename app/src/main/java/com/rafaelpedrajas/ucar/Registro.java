@@ -2,6 +2,7 @@ package com.rafaelpedrajas.ucar;
 
 import android.content.Intent;
 import android.support.design.widget.TextInputEditText;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SwitchCompat;
@@ -12,7 +13,9 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.Toast;
 
@@ -37,17 +40,22 @@ public class Registro extends AppCompatActivity implements AdapterView.OnItemSel
 
     List<String> arrayNombreProvincias = new ArrayList<>();
     List<String> arrayNombreUniversidades = new ArrayList<>();
-    MaterialSpinner spProvincias, spUniversidades;
+    MaterialSpinner spProvincias, spUniversidades, spPlazas, spAños;
     ArrayAdapter<String> aAProvincias, aAUniversidades;
+    ArrayAdapter<CharSequence> aAPlazas, aAAños;
     // Session Manager Class
     SessionManager session;
 
     LinearLayout elegirCoche;
     LinearLayout primerLayout;
     LinearLayout segundoLayout;
+    LinearLayout datosCoche;
 
     Button botonRegistro;
     Button botonContinuar;
+
+    TextInputLayout tILNombre, tILApellido, tILTelefono, tILCorreo, tILPass;
+    EditText eTNombre, eTApellido, eTTelefono, eTCorreo, eTPass;
 
     SwitchCompat switchCoche;
 
@@ -57,16 +65,41 @@ public class Registro extends AppCompatActivity implements AdapterView.OnItemSel
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registro);
 
-        //Mostrar primera vista
+        //Inicializacion de variables
         primerLayout = (LinearLayout) findViewById(R.id.primerLayout);
         segundoLayout = (LinearLayout) findViewById(R.id.segundoLayout);
 
         elegirCoche = (LinearLayout) findViewById(R.id.elegirCoche);
+        datosCoche = (LinearLayout) findViewById(R.id.datosCoche);
 
         switchCoche = (SwitchCompat)findViewById(R.id.switchCoche);
 
+        spPlazas = (MaterialSpinner) findViewById(R.id.spPlazas);
+        spAños = (MaterialSpinner) findViewById(R.id.spAños);
+
+        tILNombre=(TextInputLayout)findViewById(R.id.tILNombre);
+        eTNombre=(EditText)findViewById(R.id.eTNombre);
+        tILApellido=(TextInputLayout)findViewById(R.id.tILApellido);
+        eTApellido=(EditText)findViewById(R.id.eTApellido);
+        tILTelefono=(TextInputLayout)findViewById(R.id.tILTelefono);
+        eTTelefono=(EditText)findViewById(R.id.eTTelefono);
+        tILCorreo=(TextInputLayout)findViewById(R.id.tILCorreo);
+        eTCorreo=(EditText)findViewById(R.id.eTCorreo);
+        tILPass=(TextInputLayout)findViewById(R.id.tILPass);
+        eTPass=(EditText)findViewById(R.id.eTPass);
+
+
         primerLayout.setVisibility(View.VISIBLE);
         segundoLayout.setVisibility(View.GONE);
+
+        //Asignacion de variables
+        aAPlazas = ArrayAdapter.createFromResource(this, R.array.opcionesPlaza, android.R.layout.simple_spinner_dropdown_item);
+        spPlazas.setAdapter(aAPlazas);
+
+        aAAños = ArrayAdapter.createFromResource(this, R.array.opcionesAño, android.R.layout.simple_spinner_dropdown_item);
+        spAños.setAdapter(aAAños);
+
+
 
 
         //Funcionalidad botones vistas
@@ -78,8 +111,58 @@ public class Registro extends AppCompatActivity implements AdapterView.OnItemSel
             @Override
             public void onClick(View view)
             {
-                primerLayout.setVisibility(View.GONE);
-                segundoLayout.setVisibility(View.VISIBLE);
+                boolean confirmarPrimerRegistro=true;
+
+                //Comprobar nombre
+                if(eTNombre.getText().toString().trim().equals(""))
+                {
+                    confirmarPrimerRegistro=false;
+                    tILNombre.setError("El nombre es obligatorio");
+                }
+                else
+                {
+                    tILNombre.setError(null);
+                }
+
+                //Comprobar apellido
+                if(eTApellido.getText().toString().trim().equals(""))
+                {
+                    confirmarPrimerRegistro=false;
+                    tILApellido.setError("El apellido es obligatorio");
+                }
+                else
+                {
+                    tILApellido.setError(null);
+                }
+
+                //Comprobar correo
+                if(eTCorreo.getText().toString().trim().equals(""))
+                {
+                    confirmarPrimerRegistro=false;
+                    tILCorreo.setError("El correo es obligatorio");
+                }
+                else
+                {
+                    tILCorreo.setError(null);
+                }
+
+                //Comprobar contraseña
+                if(eTPass.getText().toString().trim().equals(""))
+                {
+                    confirmarPrimerRegistro=false;
+                    tILPass.setError("La contraseña es obligatoria");
+                }
+                else
+                {
+                    tILPass.setError(null);
+                }
+
+                if(confirmarPrimerRegistro)
+                {
+                    primerLayout.setVisibility(View.GONE);
+                    segundoLayout.setVisibility(View.VISIBLE);
+                }
+
             }
         });
 
@@ -88,7 +171,14 @@ public class Registro extends AppCompatActivity implements AdapterView.OnItemSel
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b)
             {
-
+                if(switchCoche.isChecked())
+                {
+                    datosCoche.setVisibility(View.VISIBLE);
+                }
+                else
+                {
+                    datosCoche.setVisibility(View.GONE);
+                }
             }
         });
 
