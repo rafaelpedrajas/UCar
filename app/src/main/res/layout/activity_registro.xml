@@ -120,22 +120,22 @@
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
                 android:layout_marginTop="10dp"
-                app:ms_multiline="false"
                 app:ms_hint="Selecciona una Provincia"
                 app:ms_floatingLabelText="Provincia"
                 app:ms_arrowSize="16dp"
-                app:ms_alignLabels="false"/>
+                app:ms_alignLabels="false"
+                app:ms_errorColor="@color/rojo" />
 
             <fr.ganfra.materialspinner.MaterialSpinner
                 android:id="@+id/spUniversidades"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
                 android:layout_marginTop="10dp"
-                app:ms_multiline="false"
                 app:ms_hint="Selecciona una Universidad"
                 app:ms_floatingLabelText="Universidad"
                 app:ms_arrowSize="16dp"
                 app:ms_alignLabels="false"
+                app:ms_errorColor="@color/rojo"
                 android:visibility="gone"/>
 
 
@@ -229,7 +229,7 @@
                         android:layout_weight="20"
                         android:layout_width="0dp"
                         android:layout_height="72dp"
-                        android:layout_marginLeft="10dp"
+                        android:layout_marginLeft="8dp"
                         app:ms_hint="Año"
                         app:ms_floatingLabelText="Año"
                         app:ms_arrowSize="16dp"/>
@@ -239,9 +239,9 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:hint="Consumo"
-                        android:layout_marginLeft="10dp"
+                        android:layout_marginLeft="5dp"
                         android:layout_marginTop="7dp"
-                        android:layout_weight="30">
+                        android:layout_weight="20">
 
                         <android.support.design.widget.TextInputEditText
                             android:id="@+id/eTConsumo"
@@ -264,12 +264,9 @@
                     android:layout_gravity="center"
                     android:text="Registrarme"
                     android:visibility="gone">
-
             </Button>
 
         </LinearLayout>
-
-
 
 
 

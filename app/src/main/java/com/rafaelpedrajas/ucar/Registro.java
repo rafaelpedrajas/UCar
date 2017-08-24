@@ -1,6 +1,7 @@
 package com.rafaelpedrajas.ucar;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -17,6 +18,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -54,8 +56,8 @@ public class Registro extends AppCompatActivity implements AdapterView.OnItemSel
     Button botonRegistro;
     Button botonContinuar;
 
-    TextInputLayout tILNombre, tILApellido, tILTelefono, tILCorreo, tILPass;
-    EditText eTNombre, eTApellido, eTTelefono, eTCorreo, eTPass;
+    TextInputLayout tILNombre, tILApellido, tILTelefono, tILCorreo, tILPass, tILMarca, tILModelo;
+    EditText eTNombre, eTApellido, eTTelefono, eTCorreo, eTPass, etMarca, etModelo;
 
     SwitchCompat switchCoche;
 
@@ -87,6 +89,10 @@ public class Registro extends AppCompatActivity implements AdapterView.OnItemSel
         eTCorreo=(EditText)findViewById(R.id.eTCorreo);
         tILPass=(TextInputLayout)findViewById(R.id.tILPass);
         eTPass=(EditText)findViewById(R.id.eTPass);
+        tILMarca=(TextInputLayout)findViewById(R.id.tILMarca);
+        etMarca=(EditText)findViewById(R.id.eTMarca);
+        tILModelo=(TextInputLayout)findViewById(R.id.tILModelo);
+        etModelo=(EditText)findViewById(R.id.eTModelo);
 
 
         primerLayout.setVisibility(View.VISIBLE);
@@ -194,38 +200,96 @@ public class Registro extends AppCompatActivity implements AdapterView.OnItemSel
                 TextInputEditText correo = (TextInputEditText)findViewById(R.id.eTCorreo);
                 TextInputEditText pass = (TextInputEditText)findViewById(R.id.eTPass);
 
-                registrarUsuario(new VolleyCallback()
+
+                boolean confirmarPrimerRegistro=true;
+
+                //Comprobación de la provincia
+                if(spProvincias.getSelectedItemPosition()==0)
                 {
-                    @Override
-                    public void onSuccess(String result)
+                    confirmarPrimerRegistro=false;
+                    spProvincias.setError("La provincia es obligatoria");
+                }
+                else
+                {
+                    spProvincias.setError(null);
+                }
+
+                //Comprobación de la universidad
+                if(spUniversidades.getSelectedItemPosition()==0)
+                {
+                    confirmarPrimerRegistro=false;
+                    spUniversidades.setError("La universidad es obligatoria");
+                }
+                else
+                {
+                    spUniversidades.setError(null);
+                }
+
+
+                //Comprobacion de los datos del coche
+                if(switchCoche.isChecked())
+                {
+                    //Comprobación de la marca
+                    if(etMarca.getText().toString().trim().equals(""))
                     {
-                        Log.d("Tolocooo",result);
-
-                        JSONArray jsonArray= new JSONArray();
-
-                        try
-                        {
-                            /*jsonArray = new JSONArray(result);
-
-                            session.createLoginSession(jsonArray.getJSONObject(0).getString("correo"),
-                                    jsonArray.getJSONObject(0).getString("pass"),
-                                    jsonArray.getJSONObject(0).getString("nombre"),
-                                    jsonArray.getJSONObject(0).getString("foto"),
-                                    jsonArray.getJSONObject(0).getString("telefono"));*/
-
-
-                            // Staring MainActivity
-                            Intent i = new Intent(getApplicationContext(), MainActivity.class);
-                            startActivity(i);
-                            //finish();
-
-                        }
-                        catch(Exception e)
-                        {
-                            e.printStackTrace();
-                        }
+                        confirmarPrimerRegistro=false;
+                        tILMarca.setError("La marca es obligatoria");
                     }
-                },nombre.getText().toString(), telefono.getText().toString(), correo.getText().toString(),pass.getText().toString());
+                    else
+                    {
+                        tILMarca.setError(null);
+                    }
+
+                    //Comprobación del modelo
+                    if(etModelo.getText().toString().trim().equals(""))
+                    {
+                        confirmarPrimerRegistro=false;
+                        tILModelo.setError("El modelo es obligatoriao");
+                    }
+                    else
+                    {
+                        tILModelo.setError(null);
+                    }
+
+                    //Comprobación de las plazas
+                    if(spPlazas.getSelectedItemPosition()==0)
+                    {
+                        confirmarPrimerRegistro=false;
+                        spPlazas.setError("Las plazas son obligatorias");
+                    }
+                    else
+                    {
+                        spPlazas.setError(null);
+                    }
+                }
+
+
+                //Registro si todo va bien
+                if(confirmarPrimerRegistro)
+                {
+                    registrarUsuario(new VolleyCallback()
+                    {
+                        @Override
+                        public void onSuccess(String result)
+                        {
+                            JSONArray jsonArray= new JSONArray();
+
+                            try
+                            {
+                                // Staring MainActivity
+                           /* Intent i = new Intent(getApplicationContext(), MainActivity.class);
+                            startActivity(i);
+                            //finish();*/
+
+                            }
+                            catch(Exception e)
+                            {
+                                e.printStackTrace();
+                            }
+                        }
+                    },nombre.getText().toString().trim(), telefono.getText().toString().trim(), correo.getText().toString().trim(),pass.getText().toString());
+                }
+
             }
         });
 
