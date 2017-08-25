@@ -200,11 +200,14 @@ public class Registro extends AppCompatActivity implements AdapterView.OnItemSel
                 TextInputEditText correo = (TextInputEditText)findViewById(R.id.eTCorreo);
                 TextInputEditText pass = (TextInputEditText)findViewById(R.id.eTPass);
 
+                int posicionProvincias = spProvincias.getSelectedItemPosition();
+                int posicionUniversidades = spUniversidades.getSelectedItemPosition();
+
 
                 boolean confirmarPrimerRegistro=true;
 
                 //Comprobación de la provincia
-                if(spProvincias.getSelectedItemPosition()==0)
+                if(posicionProvincias==0)
                 {
                     confirmarPrimerRegistro=false;
                     spProvincias.setError("La provincia es obligatoria");
@@ -215,7 +218,7 @@ public class Registro extends AppCompatActivity implements AdapterView.OnItemSel
                 }
 
                 //Comprobación de la universidad
-                if(spUniversidades.getSelectedItemPosition()==0)
+                if(posicionUniversidades==0)
                 {
                     confirmarPrimerRegistro=false;
                     spUniversidades.setError("La universidad es obligatoria");
@@ -287,7 +290,7 @@ public class Registro extends AppCompatActivity implements AdapterView.OnItemSel
                                 e.printStackTrace();
                             }
                         }
-                    },nombre.getText().toString().trim(), telefono.getText().toString().trim(), correo.getText().toString().trim(),pass.getText().toString());
+                    },nombre.getText().toString().trim(), apellido.getText().toString().trim(), telefono.getText().toString().trim(), correo.getText().toString().trim(), pass.getText().toString(), posicionProvincias, posicionUniversidades);
                 }
 
             }
@@ -340,12 +343,11 @@ public class Registro extends AppCompatActivity implements AdapterView.OnItemSel
 
     }
 
-    public void registrarUsuario(final VolleyCallback callback, final String nombre, final String telefono, final String correo, final String password)
+    public void registrarUsuario(final VolleyCallback callback, final String nombre, final String apellido, final String telefono, final String correo, final String password, final int posicionProvincia, final int posicionUniversidad)
     {
         Log.d("Datos Registro",nombre);
         JSONArray jsonArray= new JSONArray();
 
-         /*COMPROBAR LOGIN*/
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
         String URL = "https://www.rafaelpedrajas.com/android/registro.php";
 
@@ -372,15 +374,17 @@ public class Registro extends AppCompatActivity implements AdapterView.OnItemSel
             {
                 Map<String, String>  params = new HashMap<String, String>();
                 params.put("nombre", nombre);
+                params.put("apellido", apellido);
                 params.put("telefono", telefono);
                 params.put("correo", correo);
                 params.put("pass", password);
+                params.put("posicionProvincia", String.valueOf(posicionProvincia));
+                params.put("posicionUniversidad", String.valueOf(posicionUniversidad));
 
                 return params;
             }
         };
         queue.add(stringRequest);
-                    /*FIN COMPROBAR LOGIN*/
 
     }
 
