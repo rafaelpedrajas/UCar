@@ -194,6 +194,8 @@ public class Registro extends AppCompatActivity implements AdapterView.OnItemSel
             public void onClick(View view)
             {
                 //---RECOGER DATOS REGISTRO---//
+
+                //DATOS USUARIO
                 TextInputEditText nombre = (TextInputEditText)findViewById(R.id.eTNombre);
                 TextInputEditText apellido = (TextInputEditText)findViewById(R.id.eTApellido);
                 TextInputEditText telefono = (TextInputEditText)findViewById(R.id.eTTelefono);
@@ -202,6 +204,16 @@ public class Registro extends AppCompatActivity implements AdapterView.OnItemSel
 
                 int posicionProvincias = spProvincias.getSelectedItemPosition();
                 int posicionUniversidades = spUniversidades.getSelectedItemPosition();
+
+                //DATOS COCHE
+                TextInputEditText marca = (TextInputEditText)findViewById(R.id.eTMarca);
+                TextInputEditText modelo = (TextInputEditText)findViewById(R.id.eTModelo);
+                TextInputEditText consumo = (TextInputEditText)findViewById(R.id.eTConsumo);
+
+                String plazas = spPlazas.getSelectedItem().toString();
+                String año= spAños.getSelectedItem().toString();
+
+                String registrarCoche="no";
 
 
                 boolean confirmarPrimerRegistro=true;
@@ -232,6 +244,8 @@ public class Registro extends AppCompatActivity implements AdapterView.OnItemSel
                 //Comprobacion de los datos del coche
                 if(switchCoche.isChecked())
                 {
+                    registrarCoche="si";
+
                     //Comprobación de la marca
                     if(etMarca.getText().toString().trim().equals(""))
                     {
@@ -275,22 +289,17 @@ public class Registro extends AppCompatActivity implements AdapterView.OnItemSel
                         @Override
                         public void onSuccess(String result)
                         {
-                            JSONArray jsonArray= new JSONArray();
-
-                            try
+                            if(result.equals("insertado"))
                             {
-                                // Staring MainActivity
-                           /* Intent i = new Intent(getApplicationContext(), MainActivity.class);
-                            startActivity(i);
-                            //finish();*/
-
+                                Toast.makeText(Registro.this,"Verifique su email con el correo que le acaba de llegar para poder iniciar sesión",Toast.LENGTH_LONG).show();
                             }
-                            catch(Exception e)
+                            else
                             {
-                                e.printStackTrace();
+                                Toast.makeText(Registro.this,"Ha ocurrido algún error en el registro, vuelva a intentarlo en unos minutos por favor",Toast.LENGTH_LONG).show();
                             }
+
                         }
-                    },nombre.getText().toString().trim(), apellido.getText().toString().trim(), telefono.getText().toString().trim(), correo.getText().toString().trim(), pass.getText().toString(), posicionProvincias, posicionUniversidades);
+                    },nombre.getText().toString().trim(), apellido.getText().toString().trim(), telefono.getText().toString().trim(), correo.getText().toString().trim(), pass.getText().toString(), posicionProvincias, posicionUniversidades, registrarCoche, marca.getText().toString(), modelo.getText().toString(), plazas, año, consumo.getText().toString());
                 }
 
             }
@@ -343,7 +352,7 @@ public class Registro extends AppCompatActivity implements AdapterView.OnItemSel
 
     }
 
-    public void registrarUsuario(final VolleyCallback callback, final String nombre, final String apellido, final String telefono, final String correo, final String password, final int posicionProvincia, final int posicionUniversidad)
+    public void registrarUsuario(final VolleyCallback callback, final String nombre, final String apellido, final String telefono, final String correo, final String password, final int posicionProvincia, final int posicionUniversidad,final String registrarCoche, final String marca, final String modelo, final String plazas, final String año, final String consumo)
     {
         Log.d("Datos Registro",nombre);
         JSONArray jsonArray= new JSONArray();
@@ -373,6 +382,7 @@ public class Registro extends AppCompatActivity implements AdapterView.OnItemSel
             protected Map<String, String> getParams()
             {
                 Map<String, String>  params = new HashMap<String, String>();
+                //Datos Usuario
                 params.put("nombre", nombre);
                 params.put("apellido", apellido);
                 params.put("telefono", telefono);
@@ -380,6 +390,14 @@ public class Registro extends AppCompatActivity implements AdapterView.OnItemSel
                 params.put("pass", password);
                 params.put("posicionProvincia", String.valueOf(posicionProvincia));
                 params.put("posicionUniversidad", String.valueOf(posicionUniversidad));
+
+                //Datos coche
+                params.put("registrarCoche", registrarCoche);
+                params.put("marca", marca);
+                params.put("modelo", modelo);
+                params.put("plazas", plazas);
+                params.put("anio", año);
+                params.put("consumo", consumo);
 
                 return params;
             }
