@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import java.util.HashMap;
@@ -66,6 +67,7 @@ public class Perfil extends AppCompatActivity
 
         final TextView verEstadisticas = (TextView) findViewById(R.id.tvRating);
         final LinearLayout layoutEstadisticas = (LinearLayout) findViewById(R.id.estadisticas);
+        final RatingBar rtb = (RatingBar)findViewById(R.id.ratingBar);
 
         verEstadisticas.setOnClickListener(new View.OnClickListener()
         {
@@ -74,6 +76,7 @@ public class Perfil extends AppCompatActivity
             {
                 layoutEstadisticas.setVisibility(View.VISIBLE);
                 verEstadisticas.setVisibility(View.GONE);
+                rtb.setVisibility(View.GONE);
             }
         });
 

@@ -97,33 +97,28 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:padding="25dp"
-            android:weightSum="100">
+            android:padding="25dp">
 
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_weight="60"
-                android:layout_gravity="center"
-                android:weightSum="100">
+                android:layout_gravity="center">
 
                 <ImageButton
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
+                    android:layout_height="wrap_content"
                     android:background="@null"
                     android:scaleType="fitCenter"
                     android:layout_gravity="center"
-                    android:layout_weight="45"
                     android:src="@mipmap/ic_default_perfil"/>
 
                 <TextView
                     android:id="@+id/tvNombre"
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_weight="15"
                     android:textStyle="bold"
                     android:paddingTop="10dp"
                     android:text="Nombre A."
@@ -135,17 +130,15 @@
                     android:id="@+id/ratingBar"
                     android:layout_width="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_height="0dp"
-                    android:layout_weight="25"
+                    android:layout_height="wrap_content"
                     android:numStars="5"
                     />
 
                 <TextView
                     android:id="@+id/tvRating"
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_weight="15"
                     android:text="Ver estadísticas "
                     android:textAlignment="center"
                     />
@@ -231,6 +224,8 @@
             <GridLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:padding="25dp"
+                android:layout_gravity="center"
                 android:rowCount="4"
                 android:columnCount="2">
 
@@ -293,7 +288,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
-                    android:layout_weight="15"
                     android:textStyle="bold"
                     android:text="Teléfono:"
                     />
@@ -303,7 +297,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_weight="15"
                     android:text="667382203"
                     android:textAlignment="center"
                     />
