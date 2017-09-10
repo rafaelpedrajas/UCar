@@ -3,9 +3,11 @@ package com.rafaelpedrajas.ucar;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Layout;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.HashMap;
@@ -35,6 +37,7 @@ public class Perfil extends AppCompatActivity
         //INICIALIZAR TOOLBAR
         ImageButton back = (ImageButton) findViewById(R.id.back);
         ImageButton edit = (ImageButton) findViewById(R.id.edit);
+
         TextView tituloVentana = (TextView) findViewById(R.id.tituloVentana);
 
         back.setVisibility(View.VISIBLE);
@@ -56,6 +59,21 @@ public class Perfil extends AppCompatActivity
             {
                 Intent i = new Intent(getApplicationContext(),EditarPerfil.class);
                 startActivity(i);
+            }
+        });
+
+        //----------------Mostrar estadísticas---------
+
+        final TextView verEstadisticas = (TextView) findViewById(R.id.tvRating);
+        final LinearLayout layoutEstadisticas = (LinearLayout) findViewById(R.id.estadisticas);
+
+        verEstadisticas.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                layoutEstadisticas.setVisibility(View.VISIBLE);
+                verEstadisticas.setVisibility(View.GONE);
             }
         });
 
