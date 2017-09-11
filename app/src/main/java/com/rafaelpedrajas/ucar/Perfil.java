@@ -65,18 +65,34 @@ public class Perfil extends AppCompatActivity
 
         //----------------Mostrar estadísticas---------
 
-        final TextView verEstadisticas = (TextView) findViewById(R.id.tvRating);
+
+        final LinearLayout verMasEstadisticas = (LinearLayout) findViewById(R.id.layout_ver_mas);
         final LinearLayout layoutEstadisticas = (LinearLayout) findViewById(R.id.estadisticas);
         final RatingBar rtb = (RatingBar)findViewById(R.id.ratingBar);
 
-        verEstadisticas.setOnClickListener(new View.OnClickListener()
+        verMasEstadisticas.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
             {
                 layoutEstadisticas.setVisibility(View.VISIBLE);
-                verEstadisticas.setVisibility(View.GONE);
+                verMasEstadisticas.setVisibility(View.GONE);
                 rtb.setVisibility(View.GONE);
+            }
+        });
+
+        //------------Mostrar menos estadísticas----------
+
+        final LinearLayout verMenosEstadisticas = (LinearLayout) findViewById(R.id.layout_ver_menos);
+
+        verMenosEstadisticas.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                layoutEstadisticas.setVisibility(View.GONE);
+                verMasEstadisticas.setVisibility(View.VISIBLE);
+                rtb.setVisibility(View.VISIBLE);
             }
         });
 

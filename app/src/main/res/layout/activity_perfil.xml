@@ -108,7 +108,7 @@
 
                 <ImageButton
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="80dp"
                     android:background="@null"
                     android:scaleType="fitCenter"
                     android:layout_gravity="center"
@@ -134,26 +134,43 @@
                     android:numStars="5"
                     />
 
-                <TextView
-                    android:id="@+id/tvRating"
-                    android:layout_width="match_parent"
+                <LinearLayout
+                    android:id="@+id/layout_ver_mas"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="Ver estadísticas "
-                    android:textAlignment="center"
-                    />
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tvRating"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Mostrar más "
+                        android:textAlignment="center"
+                        />
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@mipmap/ic_ver_mas"
+                        android:layout_gravity="left"/>
+
+                </LinearLayout>
+
+
 
                 <LinearLayout
                     android:id="@+id/estadisticas"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
+                    android:layout_gravity="center"
                     android:visibility="gone">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:layout_gravity="center">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -175,7 +192,8 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:layout_gravity="center">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -197,14 +215,15 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:layout_gravity="center">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:textStyle="bold"
-                            android:text="Conduccion: " />
+                            android:text="Conducción: " />
 
                         <RatingBar
                             android:id="@+id/ratingBarConduccion"
@@ -216,7 +235,30 @@
 
                     </LinearLayout>
 
+                    <LinearLayout
+                        android:id="@+id/layout_ver_menos"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tvVerMenos"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Mostrar menos "
+                            android:textAlignment="center"
+                            />
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@mipmap/ic_ver_menos"
+                            android:layout_gravity="left"/>
+
+                    </LinearLayout>
+
                 </LinearLayout>
+
 
 
             </LinearLayout>
@@ -235,6 +277,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
                     android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:layout_marginTop="10dp"
                     android:text="Provincia:"
                     />
 
@@ -242,8 +286,10 @@
                     android:id="@+id/tvProvinciaValor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
+                    android:layout_gravity="right"
                     android:text="Córdoba"
+                    android:textSize="16sp"
+                    android:layout_marginTop="10dp"
                     android:textAlignment="center"
                     />
 
@@ -253,6 +299,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
                     android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:layout_marginTop="10dp"
                     android:text="Universidad:"
                     />
 
@@ -260,8 +308,10 @@
                     android:id="@+id/tvUniversidadValor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
+                    android:layout_gravity="right"
                     android:text="UCO:Rabanales"
+                    android:textSize="16sp"
+                    android:layout_marginTop="10dp"
                     android:textAlignment="center"
                     />
 
@@ -269,8 +319,10 @@
                     android:id="@+id/tvCoche"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="left"
+                    android:layout_gravity=""
                     android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:layout_marginTop="10dp"
                     android:text="Coche:"
                     />
 
@@ -278,8 +330,10 @@
                     android:id="@+id/tvCocheValor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
+                    android:layout_gravity="right"
+                    android:textSize="16sp"
                     android:text="Audi A4"
+                    android:layout_marginTop="10dp"
                     android:textAlignment="center"
                     />
 
@@ -288,7 +342,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
+                    android:textSize="16sp"
                     android:textStyle="bold"
+                    android:layout_marginTop="10dp"
                     android:text="Teléfono:"
                     />
 
@@ -296,8 +352,10 @@
                     android:id="@+id/tvTelefonoValor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
+                    android:layout_gravity="right"
+                    android:textSize="16sp"
                     android:text="667382203"
+                    android:layout_marginTop="10dp"
                     android:textAlignment="center"
                     />
 
