@@ -15,6 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Switch;
@@ -67,6 +68,22 @@ public class Registro extends AppCompatActivity implements AdapterView.OnItemSel
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registro);
 
+
+        //INICIALIZAR TOOLBAR
+        ImageButton back = (ImageButton) findViewById(R.id.back);
+        TextView tituloVentana = (TextView) findViewById(R.id.tituloVentana);
+
+        back.setVisibility(View.VISIBLE);
+        tituloVentana.setText("Registro");
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent volver = new Intent(getApplicationContext(),Login.class);
+                startActivity(volver);
+            }
+        });
+
         //Inicializacion de variables
         primerLayout = (LinearLayout) findViewById(R.id.primerLayout);
         segundoLayout = (LinearLayout) findViewById(R.id.segundoLayout);
@@ -104,7 +121,6 @@ public class Registro extends AppCompatActivity implements AdapterView.OnItemSel
 
         aAAños = ArrayAdapter.createFromResource(this, R.array.opcionesAño, android.R.layout.simple_spinner_dropdown_item);
         spAños.setAdapter(aAAños);
-
 
 
 
