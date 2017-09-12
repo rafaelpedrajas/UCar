@@ -2,6 +2,7 @@ package com.rafaelpedrajas.ucar;
 
 import android.content.Intent;
 import android.support.design.widget.TextInputEditText;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -30,6 +31,9 @@ public class Login extends AppCompatActivity
 {
     // Email, password edittext
     TextInputEditText eTCorreo, eTPass;
+
+    TextInputLayout tILCorreo;
+    TextInputLayout tILPass;
 
     // login button
     Button btnLogin;
@@ -66,8 +70,8 @@ public class Login extends AppCompatActivity
         // Email, Password input text
         eTCorreo = (TextInputEditText) findViewById(R.id.eTCorreo);
         eTPass = (TextInputEditText) findViewById(R.id.eTPass);
-
-        Toast.makeText(getApplicationContext(), "User Login Status: " + session.isLoggedIn(), Toast.LENGTH_LONG).show();
+        tILCorreo = (TextInputLayout)findViewById(R.id.tILCorreo);
+        tILPass = (TextInputLayout)findViewById(R.id.tILPass);
 
 
         // Login button
@@ -91,51 +95,45 @@ public class Login extends AppCompatActivity
 
             @Override
             public void onClick(View arg0) {
+
                 // Get username, password from EditText
                 final String correo = eTCorreo.getText().toString();
                 final String password = eTPass.getText().toString();
 
+                boolean datosCorrectos = true;
+
                 // Check if username, password is filled
-                if(correo.trim().length() > 0 && password.trim().length() > 0){
-                    // For testing puspose username, password is checked with sample data
-                    // username = test
-                    // password = test
-                   /* if(username.equals("test") && password.equals("test")){
+                if(correo.trim().equals("")){
+                    tILCorreo.setError("El correo es obligatorio");
+                    datosCorrectos=false;
+                }
 
-                        // Creating user login session
-                        // For testing i am stroing name, email as follow
-                        // Use user real data
-                        session.createLoginSession("Android Hive", "anroidhive@gmail.com");
+                if(password.trim().equals("")){
+                    datosCorrectos=false;
+                    tILPass.setError("La contaseña es obligatoria");
+                }
 
-                        // Staring MainActivity
-                        Intent i = new Intent(getApplicationContext(), MainActivity.class);
-                        startActivity(i);
-                        finish();
 
-                    }else{
-                        // username / password doesn't match
-                        Toast.makeText(getApplicationContext(), "Login failed. Username/Password is incorrect", Toast.LENGTH_LONG).show();
-                        //alert.showAlertDialog(LoginActivity.this, "Login failed..", "Username/Password is incorrect", false);
-                    }*/
-
+                if(datosCorrectos)
+                {
                     guardarUsuario(new VolleyCallback()
                     {
                         @Override
                         public void onSuccess(String result)
                         {
-                            Log.d("Tolocooo",result);
+                            Log.d("Tolocooo", result);
 
-                            JSONArray jsonArray= new JSONArray();
+                            JSONArray jsonArray = new JSONArray();
 
                             try
                             {
                                 jsonArray = new JSONArray(result);
 
                                 session.createLoginSession(jsonArray.getJSONObject(0).getString("correo"),
-                                                            jsonArray.getJSONObject(0).getString("pass"),
-                                                            jsonArray.getJSONObject(0).getString("nombre"),
-                                                            jsonArray.getJSONObject(0).getString("foto"),
-                                                            jsonArray.getJSONObject(0).getString("telefono"));
+                                        jsonArray.getJSONObject(0).getString("pass"),
+                                        jsonArray.getJSONObject(0).getString("nombre"),
+                                        jsonArray.getJSONObject(0).getString("foto"),
+                                        jsonArray.getJSONObject(0).getString("telefono"));
 
 
                                 // Staring MainActivity
@@ -149,16 +147,8 @@ public class Login extends AppCompatActivity
                                 e.printStackTrace();
                             }
                         }
-                    },correo,password);
-
-
-                }else{
-                    // user didn't entered username or password
-                    // Show alert asking him to enter the details
-                    Toast.makeText(getApplicationContext(), "Login failed. Please enter username and password ", Toast.LENGTH_LONG).show();
-                   // alert.showAlertDialog(LoginActivity.this, "Login failed..", "Please enter username and password", false);
+                    }, correo, password);
                 }
-
             }
         });
     }

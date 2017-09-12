@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     SessionManager session;
     TextView tvLogIn;
     TextView tvRegistro;
+    TextView tvNombre;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -154,6 +155,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
         if(session.isLoggedIn()){
+
+            tvNombre = (TextView)findViewById(R.id.tvNombre);
+            HashMap<String, String> user = session.getUserDetails();
+
+            tvNombre.setText(user.get(SessionManager.KEY_NOMBRE));
             layoutLogIn.setVisibility(View.GONE);
             layoutPerfil.setVisibility(View.VISIBLE);
         }
@@ -183,8 +189,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     startActivity(registro);
                 }
             });
-        }
 
+
+        }
 
 
         //------------FIN CONTROL SESION USUARIO-------------------------

@@ -1,103 +1,239 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
-
-    <android.support.design.widget.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay" >
-
-            <ImageButton
-                android:id="@+id/back"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/ic_arrow_back"
-                android:visibility="gone"
-                android:background="@null"/>
-
-            <TextView
-                android:id="@+id/tituloVentana"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=""
-                android:textSize="20sp"
-                android:textColor="#fff"
-                android:textStyle="normal"/>
-        </android.support.v7.widget.Toolbar>
-
-    </android.support.design.widget.AppBarLayout>
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="25dp">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/text_input_layout_p_encuentro"
+        <android.support.design.widget.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                app:popupTheme="@style/AppTheme.PopupOverlay" >
+
+                <ImageButton
+                    android:id="@+id/back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/ic_arrow_back"
+                    android:visibility="gone"
+                    android:background="@null"/>
+
+                <TextView
+                    android:id="@+id/tituloVentana"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textSize="20sp"
+                    android:textColor="#fff"
+                    android:textStyle="normal"/>
+            </android.support.v7.widget.Toolbar>
+
+        </android.support.design.widget.AppBarLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Punto de encuentro">
+            android:orientation="vertical"
+            android:padding="25dp">
 
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/editTextPEncuentro"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Selecciona el punto de encuentro:"
+                android:textSize="15sp"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/colorPrimary">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="MAPA"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:textSize="25sp"/>
+
+            </LinearLayout>
+
+            <fr.ganfra.materialspinner.MaterialSpinner
+                android:id="@+id/spProvincias"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_marginTop="10dp"
+                app:ms_hint="Selecciona una Provincia"
+                app:ms_floatingLabelText="Provincia"
+                app:ms_arrowSize="16dp"
+                app:ms_alignLabels="false"
+                app:ms_errorColor="@color/rojo" />
+
+            <fr.ganfra.materialspinner.MaterialSpinner
+                android:id="@+id/spUniversidades"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_marginTop="10dp"
+                app:ms_hint="Selecciona una Universidad"
+                app:ms_floatingLabelText="Universidad"
+                app:ms_arrowSize="16dp"
+                app:ms_alignLabels="false"
+                app:ms_errorColor="@color/rojo"/>
+
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textEmailAddress"/>
+                android:orientation="horizontal"
+                android:weightSum="90">
 
-        </android.support.design.widget.TextInputLayout>
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/tILDia"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="30"
+                    android:paddingRight="10dp"
+                    android:hint="Dia">
 
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/text_input_layout_hora"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Hora">
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/eTDia"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPassword"/>
 
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/editTextHora"
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/tILHora"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="30"
+                    android:paddingLeft="10dp"
+                    android:hint="Hora">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/eTHora"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPassword"/>
+
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/tILPrecio"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="30"
+                    android:paddingLeft="10dp"
+                    android:hint="Precio">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/eTPrecio"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPassword"/>
+
+                </android.support.design.widget.TextInputLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPassword"/>
+                android:orientation="horizontal"
+                android:layout_marginTop="20dp"
+                android:visibility="visible">
 
-        </android.support.design.widget.TextInputLayout>
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/tILMarca"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="Marca"
+                    android:paddingRight="10dp"
+                    android:layout_weight="50">
 
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/text_input_layout_precio"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Precio">
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/eTMarca"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
 
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/editTextPrecio"
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/tILModelo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="Modelo"
+                    android:paddingLeft="10dp"
+                    android:layout_weight="50">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/eTModelo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+                </android.support.design.widget.TextInputLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPassword"/>
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp">
 
-        </android.support.design.widget.TextInputLayout>
+                <fr.ganfra.materialspinner.MaterialSpinner
+                    android:id="@+id/spPlazas"
+                    android:layout_weight="20"
+                    android:layout_width="0dp"
+                    android:layout_height="72dp"
+                    app:ms_hint="Plazas"
+                    app:ms_floatingLabelText="Plazas"
+                    app:ms_arrowSize="16dp"/>
 
-        <Button style="@style/Widget.AppCompat.Button.Colored"
-            android:id="@+id/botonCrear"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:paddingTop="16dp"
-            android:paddingBottom="16dp"
-            android:text="Crear" >
+                <fr.ganfra.materialspinner.MaterialSpinner
+                    android:id="@+id/spAños"
+                    android:layout_weight="20"
+                    android:layout_width="0dp"
+                    android:layout_height="72dp"
+                    android:layout_marginLeft="8dp"
+                    app:ms_hint="Año"
+                    app:ms_floatingLabelText="Año"
+                    app:ms_arrowSize="16dp"/>
 
-        </Button>
-
-    </LinearLayout>
-
+            </LinearLayout>
 
 
-</LinearLayout>
+            </LinearLayout>
+
+
+            <Button style="@style/Widget.AppCompat.Button.Colored"
+                android:id="@+id/botonCrear"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp"
+                android:layout_gravity="center"
+                android:text="Crear" >
+
+            </Button>
+
+        </LinearLayout>
+
+
+
+</ScrollView>
