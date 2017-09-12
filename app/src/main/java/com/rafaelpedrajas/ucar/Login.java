@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,6 +45,20 @@ public class Login extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        //INICIALIZAR TOOLBAR
+        ImageButton back = (ImageButton) findViewById(R.id.back);
+        TextView tituloVentana = (TextView) findViewById(R.id.tituloVentana);
+
+        back.setVisibility(View.VISIBLE);
+        tituloVentana.setText("Inciar sesión");
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                volverAtras();
+            }
+        });
 
         // Session Manager
         session = new SessionManager(getApplicationContext());
@@ -187,5 +202,14 @@ public class Login extends AppCompatActivity
         queue.add(stringRequest);
                     /*FIN COMPROBAR LOGIN*/
 
+    }
+
+    private void volverAtras(){
+        Intent volver = new Intent(getApplicationContext(),MainActivity.class);
+        startActivity(volver);
+    }
+    @Override
+    public void onBackPressed (){
+        volverAtras();
     }
 }

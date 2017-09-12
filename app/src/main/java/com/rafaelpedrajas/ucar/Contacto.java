@@ -1,20 +1,41 @@
 package com.rafaelpedrajas.ucar;
 
 import android.content.Intent;
+import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import java.util.HashMap;
+
 public class Contacto extends AppCompatActivity
 {
+    // Session Manager Class
+    SessionManager session;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contacto);
+
+        // Session class instance
+        session = new SessionManager(getApplicationContext());
+
+        /**
+         * Call this function whenever you want to check user login
+         * This will redirect user to LoginActivity is he is not
+         * logged in
+         * */
+        TextInputEditText eTEmail = (TextInputEditText)findViewById(R.id.eTEmail);
+
+
+        if(session.isLoggedIn()){
+            HashMap<String, String> user = session.getUserDetails();
+            eTEmail.setText(user.get(SessionManager.KEY_CORREO));
+        }
 
         //Inicializar toolbar
         ImageButton back = (ImageButton) findViewById(R.id.back);
@@ -29,8 +50,7 @@ public class Contacto extends AppCompatActivity
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent volver = new Intent(getApplicationContext(),MainActivity.class);
-                startActivity(volver);
+                volverAtras();
             }
         });
 
@@ -41,5 +61,14 @@ public class Contacto extends AppCompatActivity
                 startActivity(enviar);
             }
         });
+    }
+
+    private void volverAtras(){
+        Intent volver = new Intent(getApplicationContext(),MainActivity.class);
+        startActivity(volver);
+    }
+    @Override
+    public void onBackPressed (){
+        volverAtras();
     }
 }

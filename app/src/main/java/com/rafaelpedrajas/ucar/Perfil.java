@@ -48,8 +48,7 @@ public class Perfil extends AppCompatActivity
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent volver = new Intent(getApplicationContext(),MainActivity.class);
-                startActivity(volver);
+                volverAtras();
             }
         });
 
@@ -115,6 +114,15 @@ public class Perfil extends AppCompatActivity
         telefono.setText(user.get(SessionManager.KEY_TELEFONO));
 
         //----FIN RELLENAR INTERFAZ----
+    }
+
+    private void volverAtras(){
+        Intent volver = new Intent(getApplicationContext(),MainActivity.class);
+        startActivity(volver);
+    }
+    @Override
+    public void onBackPressed (){
+        volverAtras();
     }
 
 

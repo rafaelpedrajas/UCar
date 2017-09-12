@@ -163,6 +163,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:layout_gravity="center"
+                    android:layout_marginTop="20dp"
                     android:visibility="gone">
 
                     <LinearLayout
@@ -227,8 +228,8 @@
                         <RatingBar
                             android:id="@+id/ratingBarConduccion"
                             android:layout_width="wrap_content"
-                            android:layout_gravity="center"
                             android:layout_height="wrap_content"
+                            android:layout_gravity="center"
                             android:numStars="5"
                             />
 
@@ -245,12 +246,14 @@
                             android:id="@+id/tvVerMenos"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:paddingTop="5dp"
                             android:text="Mostrar menos "
                             android:textAlignment="center"
                             />
                         <ImageView
                             android:layout_width="20dp"
                             android:layout_height="20dp"
+                            android:paddingTop="5dp"
                             android:src="@mipmap/ic_ver_menos"
                             android:layout_gravity="left"/>
 

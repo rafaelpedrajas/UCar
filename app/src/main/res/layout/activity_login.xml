@@ -7,77 +7,141 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="10dip">
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_marginTop="80dp"
-        android:gravity="center">
+        android:orientation="vertical">
 
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/tILCorreo"
+        <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingRight="15dp"
-            android:paddingLeft="15dp"
-            android:hint="Correo">
+            android:layout_height="wrap_content">
 
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/eTCorreo"
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textEmailAddress"/>
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                app:popupTheme="@style/AppTheme.PopupOverlay" >
 
-        </android.support.design.widget.TextInputLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="100">
 
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/tILPass"
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:layout_weight="15">
+
+                        <ImageButton
+                            android:id="@+id/back"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@mipmap/ic_arrow_back"
+                            android:visibility="gone"
+                            android:background="@null"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:layout_weight="80"
+                        android:gravity="center_vertical">
+
+                        <TextView
+                            android:id="@+id/tituloVentana"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=""
+                            android:textSize="20sp"
+                            android:textColor="#fff"
+                            android:textStyle="normal"/>
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+            </android.support.v7.widget.Toolbar>
+
+        </android.support.design.widget.AppBarLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingRight="15dp"
-            android:paddingLeft="15dp"
-            android:hint="Contraseña">
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="10dip">
 
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/eTPass"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textPassword"/>
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_marginTop="80dp"
+                android:gravity="center">
 
-        </android.support.design.widget.TextInputLayout>
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/tILCorreo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingRight="15dp"
+                    android:paddingLeft="15dp"
+                    android:hint="Correo">
 
-        <!-- Login button -->
-        <Button style="@style/Widget.AppCompat.Button.Colored"
-                android:id="@+id/btnLogin"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:paddingTop="16dp"
-                android:paddingBottom="16dp"
-                android:layout_gravity="center"
-                android:text="Login" >
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/eTCorreo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textEmailAddress"/>
 
-        </Button>
-        <TextView
-            android:id="@+id/tvRegistro"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="10dp"
-            android:text="Registrate"
-            android:textAlignment="viewEnd"
-            android:textSize="20sp"
-            android:textColor="#000080"/>
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/tILPass"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingRight="15dp"
+                    android:paddingLeft="15dp"
+                    android:hint="Contraseña">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/eTPass"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPassword"/>
+
+                </android.support.design.widget.TextInputLayout>
+
+                <!-- Login button -->
+                <Button style="@style/Widget.AppCompat.Button.Colored"
+                        android:id="@+id/btnLogin"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:paddingTop="16dp"
+                        android:paddingBottom="16dp"
+                        android:layout_gravity="center"
+                        android:text="Login" >
+
+                </Button>
+                <TextView
+                    android:id="@+id/tvRegistro"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="10dp"
+                    android:text="Registrate"
+                    android:textAlignment="viewEnd"
+                    android:textSize="20sp"
+                    android:textColor="#000080"/>
 
 
+            </LinearLayout>
+
+
+        </LinearLayout>
     </LinearLayout>
-
-
-</LinearLayout>
 
 </ScrollView>

@@ -40,6 +40,7 @@ import fr.ganfra.materialspinner.MaterialSpinner;
 
 public class Registro extends AppCompatActivity implements AdapterView.OnItemSelectedListener
 {
+    Integer numPagina = 1;
 
     List<String> arrayNombreProvincias = new ArrayList<>();
     List<String> arrayNombreUniversidades = new ArrayList<>();
@@ -79,8 +80,8 @@ public class Registro extends AppCompatActivity implements AdapterView.OnItemSel
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent volver = new Intent(getApplicationContext(),Login.class);
-                startActivity(volver);
+
+                volverAtras();
             }
         });
 
@@ -183,6 +184,7 @@ public class Registro extends AppCompatActivity implements AdapterView.OnItemSel
                 {
                     primerLayout.setVisibility(View.GONE);
                     segundoLayout.setVisibility(View.VISIBLE);
+                    numPagina=2;
                 }
 
             }
@@ -595,5 +597,22 @@ public class Registro extends AppCompatActivity implements AdapterView.OnItemSel
     public void onNothingSelected(AdapterView<?> adapterView)
     {
 
+    }
+
+    private void volverAtras(){
+        if(numPagina==1){
+            Intent volver = new Intent(getApplicationContext(),Login.class);
+            startActivity(volver);
+        }
+        else{
+            primerLayout.setVisibility(View.VISIBLE);
+            segundoLayout.setVisibility(View.GONE);
+            numPagina=1;
+        }
+    }
+
+    @Override
+    public void onBackPressed (){
+        volverAtras();
     }
 }

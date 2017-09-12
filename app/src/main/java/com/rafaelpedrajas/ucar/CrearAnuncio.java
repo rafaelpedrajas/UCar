@@ -37,8 +37,7 @@ public class CrearAnuncio extends AppCompatActivity {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent volver = new Intent(getApplicationContext(),MainActivity.class);
-                startActivity(volver);
+                volverAtras();
             }
         });
 
@@ -91,6 +90,15 @@ public class CrearAnuncio extends AppCompatActivity {
                 startActivity(volver);
             }
         });
+    }
+
+    private void volverAtras(){
+        Intent volver = new Intent(getApplicationContext(),MainActivity.class);
+        startActivity(volver);
+    }
+    @Override
+    public void onBackPressed (){
+        volverAtras();
     }
 
 

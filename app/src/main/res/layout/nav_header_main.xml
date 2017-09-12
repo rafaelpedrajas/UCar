@@ -14,34 +14,90 @@
     android:paddingTop="16dp"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingTop="16dp"
-        android:layout_weight="10"
-        android:src="@mipmap/ic_default_perfil" />
-
     <LinearLayout
-        android:layout_weight="90"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingTop="16dp"
-        android:layout_marginLeft="15dp">
+        android:id="@+id/layout_perfil"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:visibility="gone">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingTop="8dp"
-        android:text="Nombre"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="16dp"
+            android:layout_weight="10"
+            android:src="@mipmap/ic_default_perfil" />
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Ir a mi perfil" />
+        <LinearLayout
+            android:layout_weight="90"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="16dp"
+            android:layout_marginLeft="15dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="8dp"
+                android:text="Nombre"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ir a mi perfil" />
+
+        </LinearLayout>
+
 
     </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_log_in"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:visibility="visible">
+
+        <ImageView
+            android:id="@+id/imagenDefecto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="16dp"
+            android:layout_weight="10"
+            android:src="@mipmap/ic_default_perfil" />
+
+        <LinearLayout
+            android:layout_weight="90"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="16dp"
+            android:layout_marginLeft="15dp">
+
+            <TextView
+                android:id="@+id/tVLogIn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="8dp"
+                android:text="Inicia sesión"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+
+            <TextView
+                android:id="@+id/tVResgistro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Registrate" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+
 </LinearLayout>

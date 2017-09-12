@@ -94,8 +94,7 @@ public class EditarPerfil extends AppCompatActivity implements AdapterView.OnIte
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent volver = new Intent(getApplicationContext(),Perfil.class);
-                startActivity(volver);
+                volverAtras();
             }
         });
 
@@ -372,6 +371,15 @@ public class EditarPerfil extends AppCompatActivity implements AdapterView.OnIte
         });
 
         builder.show();
+    }
+
+    private void volverAtras(){
+        Intent volver = new Intent(getApplicationContext(),Perfil.class);
+        startActivity(volver);
+    }
+    @Override
+    public void onBackPressed (){
+        volverAtras();
     }
 }
 

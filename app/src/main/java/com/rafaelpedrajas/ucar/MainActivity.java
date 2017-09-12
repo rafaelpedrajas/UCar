@@ -30,34 +30,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     // Session Manager Class
     SessionManager session;
+    TextView tvLogIn;
+    TextView tvRegistro;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-        //---------------CONTROL SESION USUARIO--------------------------------
-
-        // Session class instance
-        session = new SessionManager(getApplicationContext());
-
-        /**
-         * Call this function whenever you want to check user login
-         * This will redirect user to LoginActivity is he is not
-         * logged in
-         * */
-        //session.checkLogin();
-
-        // get user data from session
-        /*
-        HashMap<String, String> user = session.getUserDetails();
-
-        String correo = user.get(SessionManager.KEY_CORREO);
-        String pass = user.get(SessionManager.KEY_PASS);
-        */
-
-        //------------FIN CONTROL SESION USUARIO-------------------------
 
         //Inicializar toolbar y menu
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -160,6 +140,55 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+
+        //---------------CONTROL SESION USUARIO--------------------------------
+
+        //Hay que meterlo aqui porque es donde se crea el menu lateral, sino falla
+
+        // Session class instance
+        session = new SessionManager(getApplicationContext());
+
+
+        LinearLayout layoutLogIn = (LinearLayout) findViewById(R.id.layout_log_in);
+        LinearLayout layoutPerfil = (LinearLayout) findViewById(R.id.layout_perfil);
+
+
+        if(session.isLoggedIn()){
+            layoutLogIn.setVisibility(View.GONE);
+            layoutPerfil.setVisibility(View.VISIBLE);
+        }
+        else{
+            layoutLogIn.setVisibility(View.VISIBLE);
+            layoutPerfil.setVisibility(View.GONE);
+
+            tvLogIn = (TextView)findViewById(R.id.tVLogIn);
+            tvRegistro = (TextView)findViewById(R.id.tVResgistro);
+
+            tvLogIn.setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View view)
+                {
+                    Intent iniciarSesion = new Intent(getApplicationContext(),Login.class);
+                    startActivity(iniciarSesion);
+                }
+            });
+
+            tvRegistro.setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View view)
+                {
+                    Intent registro = new Intent(getApplicationContext(),Registro.class);
+                    startActivity(registro);
+                }
+            });
+        }
+
+
+
+        //------------FIN CONTROL SESION USUARIO-------------------------
+
         return true;
     }
 
