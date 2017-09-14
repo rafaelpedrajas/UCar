@@ -6,11 +6,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,13 +23,18 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.rafaelpedrajas.ucar.Complementos.WorkaroundMapFragment;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import fr.ganfra.materialspinner.MaterialSpinner;
 
-public class CrearAnuncio extends AppCompatActivity {
+public class CrearAnuncio extends AppCompatActivity implements OnMapReadyCallback
+{
 
     // Session Manager Class
     SessionManager session;
@@ -35,6 +43,8 @@ public class CrearAnuncio extends AppCompatActivity {
 
     TextInputLayout tILDia, tILHora, tILPrecio, tILMarca, tILModelo;
     EditText etDia, etHora, etPrecio, etMarca, etModelo;
+
+    private GoogleMap mapa;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -204,6 +214,63 @@ public class CrearAnuncio extends AppCompatActivity {
 
             }
         });
+
+
+        //MAPA
+        MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
+
+        mapFragment.getMapAsync(this);
+
+        /*
+        // check if we have got the googleMap already
+        if (mapa == null) {
+            //mapa = ((WorkaroundMapFragment) getFragmentManager().findFragmentById(R.id.map)).getMapAsync(onMapReady(mapa));
+            //mapa.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+            //mapa.getUiSettings().setZoomControlsEnabled(true);
+
+            final ScrollView mScrollView = (ScrollView) findViewById(R.id.scrollAnuncio); //parent scrollview in xml, give your scrollview id value
+
+            ((WorkaroundMapFragment) getFragmentManager().findFragmentById(R.id.map))
+                    .setListener(new WorkaroundMapFragment.OnTouchListener() {
+                        @Override
+                        public void onTouch() {
+                            mScrollView.requestDisallowInterceptTouchEvent(true);
+                        }
+                    });
+
+        }
+        */
+
+        final ScrollView scrollAnuncio = (ScrollView) findViewById(R.id.scrollAnuncio);
+        ImageView transparent = (ImageView)findViewById(R.id.imageViewTransparente);
+
+        transparent.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                int action = event.getAction();
+                switch (action) {
+                    case MotionEvent.ACTION_DOWN:
+                        // Disallow ScrollView to intercept touch events.
+                        scrollAnuncio.requestDisallowInterceptTouchEvent(true);
+                        // Disable touch on transparent view
+                        return false;
+
+                    case MotionEvent.ACTION_UP:
+                        // Allow ScrollView to intercept touch events.
+                        scrollAnuncio.requestDisallowInterceptTouchEvent(false);
+                        return true;
+
+                    case MotionEvent.ACTION_MOVE:
+                        scrollAnuncio.requestDisallowInterceptTouchEvent(true);
+                        return false;
+
+                    default:
+                        return true;
+                }
+            }
+        });
+
+        //FIN MAPA
     }
 
     private void volverAtras(){
@@ -216,4 +283,11 @@ public class CrearAnuncio extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onMapReady(GoogleMap googleMap)
+    {
+        mapa=googleMap;
+        googleMap.getUiSettings().setZoomControlsEnabled(true);
+        //googleMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+    }
 }

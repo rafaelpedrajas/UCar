@@ -5,5 +5,6 @@
     <color name="colorAccent">#FF4081</color>
     <color name="rojo">#ff0000</color>
     <color name="negro">#000</color>
+    <color name="transparente">#80000000</color>
 
 </resources>
