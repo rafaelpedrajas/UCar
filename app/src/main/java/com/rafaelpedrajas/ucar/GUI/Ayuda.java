@@ -1,4 +1,4 @@
-package com.rafaelpedrajas.ucar;
+package com.rafaelpedrajas.ucar.GUI;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -6,13 +6,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.rafaelpedrajas.ucar.R;
 
 public class Ayuda extends AppCompatActivity
 {

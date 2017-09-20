@@ -1,4 +1,4 @@
-package com.rafaelpedrajas.ucar;
+package com.rafaelpedrajas.ucar.GUI;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,6 +22,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.rafaelpedrajas.ucar.Clases.Usuario;
+import com.rafaelpedrajas.ucar.R;
+import com.rafaelpedrajas.ucar.Sesion.SessionManager;
 
 import java.util.HashMap;
 
@@ -157,9 +160,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if(session.isLoggedIn()){
 
             tvNombre = (TextView)findViewById(R.id.tvNombre);
-            HashMap<String, String> user = session.getUserDetails();
+            HashMap<String, Usuario> user = session.getUserDetails();
 
-            tvNombre.setText(user.get(SessionManager.KEY_NOMBRE));
+            tvNombre.setText(user.get(SessionManager.KEY_USUARIO).getNombre());
             layoutLogIn.setVisibility(View.GONE);
             layoutPerfil.setVisibility(View.VISIBLE);
         }

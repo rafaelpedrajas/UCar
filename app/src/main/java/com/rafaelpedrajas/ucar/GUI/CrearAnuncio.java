@@ -1,14 +1,12 @@
-package com.rafaelpedrajas.ucar;
+package com.rafaelpedrajas.ucar.GUI;
 
 import android.content.Intent;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -26,7 +24,8 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.rafaelpedrajas.ucar.Complementos.WorkaroundMapFragment;
+import com.rafaelpedrajas.ucar.R;
+import com.rafaelpedrajas.ucar.Sesion.SessionManager;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -221,26 +220,7 @@ public class CrearAnuncio extends AppCompatActivity implements OnMapReadyCallbac
 
         mapFragment.getMapAsync(this);
 
-        /*
-        // check if we have got the googleMap already
-        if (mapa == null) {
-            //mapa = ((WorkaroundMapFragment) getFragmentManager().findFragmentById(R.id.map)).getMapAsync(onMapReady(mapa));
-            //mapa.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-            //mapa.getUiSettings().setZoomControlsEnabled(true);
-
-            final ScrollView mScrollView = (ScrollView) findViewById(R.id.scrollAnuncio); //parent scrollview in xml, give your scrollview id value
-
-            ((WorkaroundMapFragment) getFragmentManager().findFragmentById(R.id.map))
-                    .setListener(new WorkaroundMapFragment.OnTouchListener() {
-                        @Override
-                        public void onTouch() {
-                            mScrollView.requestDisallowInterceptTouchEvent(true);
-                        }
-                    });
-
-        }
-        */
-
+        //Se crea una imagen transparente por encima de la capa del mapa, para poder utilizar los gestos y no interferir con el ScrollView del layout
         final ScrollView scrollAnuncio = (ScrollView) findViewById(R.id.scrollAnuncio);
         ImageView transparent = (ImageView)findViewById(R.id.imageViewTransparente);
 

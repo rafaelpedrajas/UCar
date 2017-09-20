@@ -1,4 +1,4 @@
-package com.rafaelpedrajas.ucar;
+package com.rafaelpedrajas.ucar.GUI;
 
 import android.annotation.TargetApi;
 import android.content.DialogInterface;
@@ -10,7 +10,6 @@ import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
-import android.os.PersistableBundle;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
@@ -22,7 +21,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -36,6 +34,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.rafaelpedrajas.ucar.Interfaces.VolleyCallback;
+import com.rafaelpedrajas.ucar.R;
 
 import org.json.JSONArray;
 

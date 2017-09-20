@@ -1,4 +1,4 @@
-package com.rafaelpedrajas.ucar;
+package com.rafaelpedrajas.ucar.GUI;
 
 import android.content.Intent;
 import android.support.design.widget.TextInputEditText;
@@ -7,6 +7,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
+
+import com.rafaelpedrajas.ucar.Clases.Usuario;
+import com.rafaelpedrajas.ucar.R;
+import com.rafaelpedrajas.ucar.Sesion.SessionManager;
 
 import java.util.HashMap;
 
@@ -33,8 +37,8 @@ public class Contacto extends AppCompatActivity
 
 
         if(session.isLoggedIn()){
-            HashMap<String, String> user = session.getUserDetails();
-            eTEmail.setText(user.get(SessionManager.KEY_CORREO));
+            HashMap<String, Usuario> user = session.getUserDetails();
+            eTEmail.setText(user.get(SessionManager.KEY_USUARIO).getCorreo());
         }
 
         //Inicializar toolbar

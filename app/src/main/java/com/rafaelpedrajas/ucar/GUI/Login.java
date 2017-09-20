@@ -1,4 +1,4 @@
-package com.rafaelpedrajas.ucar;
+package com.rafaelpedrajas.ucar.GUI;
 
 import android.content.Intent;
 import android.support.design.widget.TextInputEditText;
@@ -8,10 +8,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -19,12 +17,14 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.rafaelpedrajas.ucar.Interfaces.VolleyCallback;
+import com.rafaelpedrajas.ucar.R;
+import com.rafaelpedrajas.ucar.Sesion.SessionManager;
 
 import org.json.JSONArray;
 
-import java.util.ArrayList;
+import java.math.BigDecimal;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class Login extends AppCompatActivity
@@ -129,11 +129,24 @@ public class Login extends AppCompatActivity
                             {
                                 jsonArray = new JSONArray(result);
 
-                                session.createLoginSession(jsonArray.getJSONObject(0).getString("correo"),
-                                        jsonArray.getJSONObject(0).getString("pass"),
+                                session.createLoginSession(
+                                        jsonArray.getJSONObject(0).getString("correo"),
                                         jsonArray.getJSONObject(0).getString("nombre"),
+                                        jsonArray.getJSONObject(0).getString("apellido"),
                                         jsonArray.getJSONObject(0).getString("foto"),
-                                        jsonArray.getJSONObject(0).getString("telefono"));
+                                        jsonArray.getJSONObject(0).getString("telefono"),
+                                        jsonArray.getJSONObject(0).getString("nombreUniversidad"),
+                                        jsonArray.getJSONObject(0).getString("nombreProvincia"),
+                                        jsonArray.getJSONObject(0).getString("marcaCoche"),
+                                        jsonArray.getJSONObject(0).getString("modeloCoche"),
+                                        jsonArray.getJSONObject(0).getInt("idUniversidad"),
+                                        jsonArray.getJSONObject(0).getInt("idProvincia"),
+                                        jsonArray.getJSONObject(0).getInt("idCoche"),
+                                        jsonArray.getJSONObject(0).getInt("plazasCoche"),
+                                        BigDecimal.valueOf(jsonArray.getJSONObject(0).getDouble("valoracionPuntualidad")).floatValue(),
+                                        BigDecimal.valueOf(jsonArray.getJSONObject(0).getDouble("valoracionAmabilidad")).floatValue(),
+                                        BigDecimal.valueOf(jsonArray.getJSONObject(0).getDouble("valoracionConduccion")).floatValue()
+                                );
 
 
                                 // Staring MainActivity

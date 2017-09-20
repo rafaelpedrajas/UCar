@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
+            android:name=".GUI.MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
@@ -23,47 +23,47 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".CrearAnuncio"
+            android:name=".GUI.CrearAnuncio"
             android:label="Crear Anuncio"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
-            android:name=".VerAnuncio"
+            android:name=".GUI.VerAnuncio"
             android:label="Anuncio"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
-            android:name=".EditarPerfil"
+            android:name=".GUI.EditarPerfil"
             android:label="Editar Perfil"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
-            android:name=".Perfil"
+            android:name=".GUI.Perfil"
             android:label="Perfil"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
-            android:name=".Login"
+            android:name=".GUI.Login"
             android:label="Login"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
-            android:name=".Registro"
+            android:name=".GUI.Registro"
             android:label="Regsitro"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
-        <activity android:name=".Ayuda"
+        <activity android:name=".GUI.Ayuda"
                   android:label="Ayuda"
                   android:screenOrientation="portrait"
                   android:theme="@style/AppTheme.NoActionBar">
         </activity>
-        <activity android:name=".Contacto"
+        <activity android:name=".GUI.Contacto"
                   android:label="Contacto"
                   android:screenOrientation="portrait"
                   android:theme="@style/AppTheme.NoActionBar">

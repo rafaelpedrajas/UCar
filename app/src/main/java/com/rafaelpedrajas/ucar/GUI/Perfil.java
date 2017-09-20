@@ -1,15 +1,18 @@
-package com.rafaelpedrajas.ucar;
+package com.rafaelpedrajas.ucar.GUI;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.Layout;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
+
+import com.rafaelpedrajas.ucar.Clases.Usuario;
+import com.rafaelpedrajas.ucar.R;
+import com.rafaelpedrajas.ucar.Sesion.SessionManager;
 
 import java.util.HashMap;
 
@@ -102,6 +105,10 @@ public class Perfil extends AppCompatActivity
 
         TextView nombre = (TextView) findViewById(R.id.tvNombre);
         TextView telefono = (TextView) findViewById(R.id.tvTelefonoValor);
+        TextView nombreProvincia = (TextView) findViewById(R.id.tvProvinciaValor);
+        TextView nombreUniversidad = (TextView) findViewById(R.id.tvUniversidadValor);
+        TextView nombreCoche = (TextView) findViewById(R.id.tvCocheValor);
+
 
 
 
@@ -109,9 +116,33 @@ public class Perfil extends AppCompatActivity
 
         //------  RELLENAR INTERFAZ------
 
-        HashMap<String, String> user = session.getUserDetails();
+        HashMap<String, Usuario> user = session.getUserDetails();
+        /*
         nombre.setText(user.get(SessionManager.KEY_NOMBRE));
         telefono.setText(user.get(SessionManager.KEY_TELEFONO));
+        */
+
+        //NOMBRE
+        String nombreYApellidos=user.get(SessionManager.KEY_USUARIO).getNombre()+" "+user.get(SessionManager.KEY_USUARIO).getApellido();
+        nombre.setText(nombreYApellidos);
+
+        //VALORACION
+        float valoracionGeneral=user.get(SessionManager.KEY_USUARIO).getValoracionPuntualidad()+user.get(SessionManager.KEY_USUARIO).getValoracionAmabilidad()+user.get(SessionManager.KEY_USUARIO).getValoracionConduccion();
+        valoracionGeneral=valoracionGeneral/3;
+        rtb.setRating(valoracionGeneral);
+
+        //Telefono
+        telefono.setText(user.get(SessionManager.KEY_USUARIO).getTelefono());
+
+        //Provincia
+        nombreProvincia.setText(user.get(SessionManager.KEY_USUARIO).getNombreProvincia());
+
+        //Universidad
+        nombreUniversidad.setText(user.get(SessionManager.KEY_USUARIO).getNombreUniversidad());
+
+        //COCHE
+        String marcaYModelo=user.get(SessionManager.KEY_USUARIO).getMarcaCoche()+" "+user.get(SessionManager.KEY_USUARIO).getModeloCoche();
+        nombreCoche.setText(marcaYModelo);
 
         //----FIN RELLENAR INTERFAZ----
     }
