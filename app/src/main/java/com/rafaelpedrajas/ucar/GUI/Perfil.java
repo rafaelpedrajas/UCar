@@ -110,38 +110,52 @@ public class Perfil extends AppCompatActivity
         TextView nombreCoche = (TextView) findViewById(R.id.tvCocheValor);
 
 
+        RatingBar rtbPuntualidad = (RatingBar) findViewById(R.id.ratingBarPuntualidad);
+        RatingBar rtbAmabilidad = (RatingBar) findViewById(R.id.ratingBarAmabilidad);
+        RatingBar rtbConduccion = (RatingBar) findViewById(R.id.ratingBarConduccion);
+
 
 
         //-------FIN INICIALIZAR INTERFAZ------------
 
         //------  RELLENAR INTERFAZ------
 
-        HashMap<String, Usuario> user = session.getUserDetails();
+        HashMap<String, String> user = session.getUserDetails();
         /*
         nombre.setText(user.get(SessionManager.KEY_NOMBRE));
         telefono.setText(user.get(SessionManager.KEY_TELEFONO));
         */
 
         //NOMBRE
-        String nombreYApellidos=user.get(SessionManager.KEY_USUARIO).getNombre()+" "+user.get(SessionManager.KEY_USUARIO).getApellido();
+        String nombreYApellidos=user.get(SessionManager.KEY_NOMBRE)+" "+user.get(SessionManager.KEY_APELLIDO);
         nombre.setText(nombreYApellidos);
 
-        //VALORACION
-        float valoracionGeneral=user.get(SessionManager.KEY_USUARIO).getValoracionPuntualidad()+user.get(SessionManager.KEY_USUARIO).getValoracionAmabilidad()+user.get(SessionManager.KEY_USUARIO).getValoracionConduccion();
+        //VALORACION GENERAL
+
+        float valoracionPuntualidad = Float.parseFloat(user.get(SessionManager.KEY_VALORACION_PUNTUALIDAD));
+        float valoracionAmabilidad = Float.parseFloat(user.get(SessionManager.KEY_VALORACION_AMABILIDAD));
+        float valoracionConduccion = Float.parseFloat(user.get(SessionManager.KEY_VALORACION_CONDUCCION));
+
+        float valoracionGeneral=valoracionPuntualidad+valoracionAmabilidad+valoracionConduccion;
         valoracionGeneral=valoracionGeneral/3;
         rtb.setRating(valoracionGeneral);
 
+        //ESTADISTICAS
+        rtbPuntualidad.setRating(valoracionPuntualidad);
+        rtbAmabilidad.setRating(valoracionAmabilidad);
+        rtbConduccion.setRating(valoracionConduccion);
+
         //Telefono
-        telefono.setText(user.get(SessionManager.KEY_USUARIO).getTelefono());
+        telefono.setText(user.get(SessionManager.KEY_TELEFONO));
 
         //Provincia
-        nombreProvincia.setText(user.get(SessionManager.KEY_USUARIO).getNombreProvincia());
+        nombreProvincia.setText(user.get(SessionManager.KEY_NOMBRE_PROVINCIA));
 
         //Universidad
-        nombreUniversidad.setText(user.get(SessionManager.KEY_USUARIO).getNombreUniversidad());
+        nombreUniversidad.setText(user.get(SessionManager.KEY_NOMBRE_UNIVERSIDAD));
 
         //COCHE
-        String marcaYModelo=user.get(SessionManager.KEY_USUARIO).getMarcaCoche()+" "+user.get(SessionManager.KEY_USUARIO).getModeloCoche();
+        String marcaYModelo=user.get(SessionManager.KEY_MARCA_COCHE)+" "+user.get(SessionManager.KEY_MODELO_COCHE);
         nombreCoche.setText(marcaYModelo);
 
         //----FIN RELLENAR INTERFAZ----

@@ -116,7 +116,7 @@ public class Login extends AppCompatActivity
 
                 if(datosCorrectos)
                 {
-                    guardarUsuario(new VolleyCallback()
+                    comprobarLogin(new VolleyCallback()
                     {
                         @Override
                         public void onSuccess(String result)
@@ -139,13 +139,19 @@ public class Login extends AppCompatActivity
                                         jsonArray.getJSONObject(0).getString("nombreProvincia"),
                                         jsonArray.getJSONObject(0).getString("marcaCoche"),
                                         jsonArray.getJSONObject(0).getString("modeloCoche"),
-                                        jsonArray.getJSONObject(0).getInt("idUniversidad"),
-                                        jsonArray.getJSONObject(0).getInt("idProvincia"),
-                                        jsonArray.getJSONObject(0).getInt("idCoche"),
-                                        jsonArray.getJSONObject(0).getInt("plazasCoche"),
+                                        jsonArray.getJSONObject(0).getString("idUniversidad"),
+                                        jsonArray.getJSONObject(0).getString("idProvincia"),
+                                        jsonArray.getJSONObject(0).getString("idCoche"),
+                                        jsonArray.getJSONObject(0).getString("plazasCoche"),
+                                        jsonArray.getJSONObject(0).getString("valoracionPuntualidad"),
+                                        jsonArray.getJSONObject(0).getString("valoracionAmabilidad"),
+                                        jsonArray.getJSONObject(0).getString("valoracionConduccion")
+                                        /*
+                                        //Para convertir de double a float
                                         BigDecimal.valueOf(jsonArray.getJSONObject(0).getDouble("valoracionPuntualidad")).floatValue(),
                                         BigDecimal.valueOf(jsonArray.getJSONObject(0).getDouble("valoracionAmabilidad")).floatValue(),
                                         BigDecimal.valueOf(jsonArray.getJSONObject(0).getDouble("valoracionConduccion")).floatValue()
+                                        */
                                 );
 
 
@@ -166,7 +172,7 @@ public class Login extends AppCompatActivity
         });
     }
 
-    public void guardarUsuario(final VolleyCallback callback, final String correo, final String password)
+    public void comprobarLogin(final VolleyCallback callback, final String correo, final String password)
     {
         JSONArray jsonArray= new JSONArray();
 

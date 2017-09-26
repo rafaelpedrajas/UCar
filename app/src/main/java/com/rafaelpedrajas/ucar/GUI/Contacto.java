@@ -37,8 +37,8 @@ public class Contacto extends AppCompatActivity
 
 
         if(session.isLoggedIn()){
-            HashMap<String, Usuario> user = session.getUserDetails();
-            eTEmail.setText(user.get(SessionManager.KEY_USUARIO).getCorreo());
+            HashMap<String, String> user = session.getUserDetails();
+            eTEmail.setText(user.get(SessionManager.KEY_CORREO));
         }
 
         //Inicializar toolbar

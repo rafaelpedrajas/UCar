@@ -131,6 +131,7 @@
                     android:layout_gravity="center"
                     android:layout_height="wrap_content"
                     android:numStars="5"
+                    android:isIndicator="true"
                     />
 
                 <LinearLayout
@@ -185,6 +186,7 @@
                             android:layout_gravity="center"
                             android:layout_height="wrap_content"
                             android:numStars="5"
+                            android:isIndicator="true"
                             />
 
                         </LinearLayout>
@@ -208,6 +210,7 @@
                             android:layout_gravity="center"
                             android:layout_height="wrap_content"
                             android:numStars="5"
+                            android:isIndicator="true"
                             />
 
                     </LinearLayout>
@@ -231,6 +234,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:numStars="5"
+                            android:isIndicator="true"
                             />
 
                     </LinearLayout>
@@ -265,105 +269,140 @@
 
             </LinearLayout>
 
-            <GridLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="25dp"
                 android:layout_gravity="center"
-                android:rowCount="4"
-                android:columnCount="2">
+                android:orientation="vertical"
+                android:layout_marginTop="15dp">
 
-                <TextView
-                    android:id="@+id/tvProvincia"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="left"
-                    android:textStyle="bold"
-                    android:textSize="16sp"
-                    android:layout_marginTop="10dp"
-                    android:text="Provincia:"
-                    />
+                    android:orientation="horizontal"
+                    android:weightSum="100">
 
-                <TextView
-                    android:id="@+id/tvProvinciaValor"
-                    android:layout_width="wrap_content"
+                    <TextView
+                        android:id="@+id/tvProvincia"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="30"
+                        android:textStyle="bold"
+                        android:textSize="16sp"
+                        android:layout_marginTop="10dp"
+                        android:text="Provincia:"
+                        />
+
+                    <TextView
+                        android:id="@+id/tvProvinciaValor"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="70"
+                        android:paddingLeft="5dp"
+                        android:text="Córdoba"
+                        android:textSize="16sp"
+                        android:layout_marginTop="10dp"
+                        android:gravity="right"
+                        />
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:text="Córdoba"
-                    android:textSize="16sp"
-                    android:layout_marginTop="10dp"
-                    android:textAlignment="center"
-                    />
+                    android:orientation="horizontal"
+                    android:weightSum="100">
 
-                <TextView
-                    android:id="@+id/tvUniversidad"
-                    android:layout_width="wrap_content"
+                    <TextView
+                        android:id="@+id/tvUniversidad"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="10dp"
+                        android:layout_weight="30"
+                        android:gravity="center_vertical"
+                        android:text="Universidad:"
+                        android:textSize="16sp"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:id="@+id/tvUniversidadValor"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_weight="70"
+                        android:paddingLeft="5dp"
+                        android:text="UCO: Rabanales"
+                        android:gravity="right"
+                        android:textSize="16sp"/>
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="left"
-                    android:textStyle="bold"
-                    android:textSize="16sp"
-                    android:layout_marginTop="10dp"
-                    android:text="Universidad:"
-                    />
+                    android:orientation="horizontal"
+                    android:weightSum="100">
 
-                <TextView
-                    android:id="@+id/tvUniversidadValor"
-                    android:layout_width="wrap_content"
+                    <TextView
+                        android:id="@+id/tvCoche"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="30"
+                        android:textStyle="bold"
+                        android:textSize="16sp"
+                        android:layout_marginTop="10dp"
+                        android:text="Coche:"
+                        />
+
+                    <TextView
+                        android:id="@+id/tvCocheValor"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="70"
+                        android:paddingLeft="5dp"
+                        android:textSize="16sp"
+                        android:text="Audi A4"
+                        android:layout_marginTop="10dp"
+                        android:gravity="right"
+                        />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:text="UCO:Rabanales"
-                    android:textSize="16sp"
-                    android:layout_marginTop="10dp"
-                    android:textAlignment="center"
-                    />
+                    android:orientation="horizontal"
+                    android:weightSum="100">
 
-                <TextView
-                    android:id="@+id/tvCoche"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity=""
-                    android:textStyle="bold"
-                    android:textSize="16sp"
-                    android:layout_marginTop="10dp"
-                    android:text="Coche:"
-                    />
+                    <TextView
+                        android:id="@+id/tvTelefono"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="30"
+                        android:textStyle="bold"
+                        android:textSize="16sp"
+                        android:layout_marginTop="10dp"
+                        android:text="Teléfono:"
+                        />
 
-                <TextView
-                    android:id="@+id/tvCocheValor"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:textSize="16sp"
-                    android:text="Audi A4"
-                    android:layout_marginTop="10dp"
-                    android:textAlignment="center"
-                    />
+                    <TextView
+                        android:id="@+id/tvTelefonoValor"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="70"
+                        android:paddingLeft="5dp"
+                        android:textSize="16sp"
+                        android:text="667382203"
+                        android:layout_marginTop="10dp"
+                        android:gravity="right"
+                        />
 
-                <TextView
-                    android:id="@+id/tvTelefono"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="left"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:layout_marginTop="10dp"
-                    android:text="Teléfono:"
-                    />
-
-                <TextView
-                    android:id="@+id/tvTelefonoValor"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:textSize="16sp"
-                    android:text="667382203"
-                    android:layout_marginTop="10dp"
-                    android:textAlignment="center"
-                    />
+                </LinearLayout>
 
 
-
-            </GridLayout>
+            </LinearLayout>
 
 
         </LinearLayout>

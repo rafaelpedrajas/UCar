@@ -160,9 +160,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if(session.isLoggedIn()){
 
             tvNombre = (TextView)findViewById(R.id.tvNombre);
-            HashMap<String, Usuario> user = session.getUserDetails();
+            HashMap<String, String> user = session.getUserDetails();
 
-            tvNombre.setText(user.get(SessionManager.KEY_USUARIO).getNombre());
+            tvNombre.setText(user.get(SessionManager.KEY_NOMBRE));
             layoutLogIn.setVisibility(View.GONE);
             layoutPerfil.setVisibility(View.VISIBLE);
         }

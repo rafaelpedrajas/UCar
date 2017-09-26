@@ -5,7 +5,10 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="vertical"
-              android:id="@+id/contenedorCompleto">
+              android:id="@+id/contenedorCompleto"
+              android:descendantFocusability="beforeDescendants"
+              android:focusableInTouchMode="true"
+    >
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -223,7 +226,7 @@
 
 
             <fr.ganfra.materialspinner.MaterialSpinner
-                android:id="@+id/spCiudades"
+                android:id="@+id/spProvincias"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
                 android:layout_marginTop="10dp"
@@ -237,7 +240,7 @@
             <fr.ganfra.materialspinner.MaterialSpinner
                 android:id="@+id/spUniversidades"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="70dp"
                 app:ms_multiline="false"
                 app:ms_hint="Selecciona una Universidad"
                 app:ms_floatingLabelText="Universidad"
@@ -248,7 +251,7 @@
             <fr.ganfra.materialspinner.MaterialSpinner
                 android:id="@+id/spCoche"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="70dp"
                 app:ms_multiline="false"
                 app:ms_hint="Selecciona un Coche"
                 app:ms_floatingLabelText="Coche"

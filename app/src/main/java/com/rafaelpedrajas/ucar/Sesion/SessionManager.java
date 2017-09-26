@@ -65,7 +65,7 @@ public class SessionManager
     /**
      * Create login session
      * */
-    public void createLoginSession(String correo, String nombre, String apellido, String foto, String telefono, String nombreUniversidad, String nombreProvincia, String marcaCoche, String modeloCoche, int idUniversidad, int idProvincia, int idCoche, int plazasCoche, float valoracionPuntualidad, float valoracionAmabilidad, float valoracionConduccion){
+    public void createLoginSession(String correo, String nombre, String apellido, String foto, String telefono, String nombreUniversidad, String nombreProvincia, String marcaCoche, String modeloCoche, String idUniversidad, String idProvincia, String idCoche, String plazasCoche, String valoracionPuntualidad, String valoracionAmabilidad, String valoracionConduccion){
         // Storing login value as TRUE
         editor.putBoolean(IS_LOGIN, true);
 
@@ -81,13 +81,13 @@ public class SessionManager
         editor.putString(KEY_NOMBRE_PROVINCIA, nombreProvincia);
         editor.putString(KEY_MARCA_COCHE, marcaCoche);
         editor.putString(KEY_MODELO_COCHE, modeloCoche);
-        editor.putInt(KEY_ID_UNIVERSIDAD, idUniversidad);
-        editor.putInt(KEY_ID_PROVINCIA, idProvincia);
-        editor.putInt(KEY_ID_COCHE, idCoche);
-        editor.putInt(KEY_PLAZAS_COCHE, plazasCoche);
-        editor.putFloat(KEY_VALORACION_PUNTUALIDAD, valoracionPuntualidad);
-        editor.putFloat(KEY_VALORACION_AMABILIDAD, valoracionAmabilidad);
-        editor.putFloat(KEY_VALORACION_CONDUCCION, valoracionConduccion);
+        editor.putString(KEY_ID_UNIVERSIDAD, idUniversidad);
+        editor.putString(KEY_ID_PROVINCIA, idProvincia);
+        editor.putString(KEY_ID_COCHE, idCoche);
+        editor.putString(KEY_PLAZAS_COCHE, plazasCoche);
+        editor.putString(KEY_VALORACION_PUNTUALIDAD, valoracionPuntualidad);
+        editor.putString(KEY_VALORACION_AMABILIDAD, valoracionAmabilidad);
+        editor.putString(KEY_VALORACION_CONDUCCION, valoracionConduccion);
 
 
         // commit changes
@@ -118,9 +118,7 @@ public class SessionManager
 
 
 
-    /**
-     * Get stored session data
-     * */
+    /*
     public HashMap<String, Usuario> getUserDetails(){
         HashMap<String, Usuario> user = new HashMap<String, Usuario>();
 
@@ -144,6 +142,37 @@ public class SessionManager
 
         user.put(KEY_USUARIO,usuario);
 
+        // return user
+        return user;
+    }
+    */
+
+
+    /**
+     * Get stored session data
+     * */
+    public HashMap<String, String> getUserDetails(){
+
+        HashMap<String, String> user = new HashMap<String, String>();
+
+        user.put(KEY_CORREO,pref.getString(KEY_CORREO, null));
+        user.put(KEY_NOMBRE,pref.getString(KEY_NOMBRE, null));
+        user.put(KEY_APELLIDO,pref.getString(KEY_APELLIDO, null));
+        user.put(KEY_FOTO,pref.getString(KEY_FOTO, null));
+        user.put(KEY_TELEFONO,pref.getString(KEY_TELEFONO, null));
+        user.put(KEY_NOMBRE_UNIVERSIDAD,pref.getString(KEY_NOMBRE_UNIVERSIDAD, null));
+        user.put(KEY_NOMBRE_PROVINCIA,pref.getString(KEY_NOMBRE_PROVINCIA, null));
+        user.put(KEY_MARCA_COCHE,pref.getString(KEY_MARCA_COCHE, null));
+        user.put(KEY_MODELO_COCHE,pref.getString(KEY_MODELO_COCHE, null));
+        user.put(KEY_ID_UNIVERSIDAD,pref.getString(KEY_ID_UNIVERSIDAD, null));
+        user.put(KEY_ID_PROVINCIA,pref.getString(KEY_ID_PROVINCIA, null));
+        user.put(KEY_ID_COCHE,pref.getString(KEY_ID_COCHE, null));
+        user.put(KEY_PLAZAS_COCHE,pref.getString(KEY_PLAZAS_COCHE, null));
+        user.put(KEY_VALORACION_PUNTUALIDAD,pref.getString(KEY_VALORACION_PUNTUALIDAD, null));
+        user.put(KEY_VALORACION_AMABILIDAD,pref.getString(KEY_VALORACION_AMABILIDAD, null));
+        user.put(KEY_VALORACION_CONDUCCION,pref.getString(KEY_VALORACION_CONDUCCION, null));
+
+
         // user name
         /*
         user.put(KEY_CORREO, pref.getString(KEY_CORREO, null));
@@ -160,6 +189,7 @@ public class SessionManager
         // return user
         return user;
     }
+
 
     /**
      * Clear session details

@@ -3,6 +3,7 @@ package com.rafaelpedrajas.ucar.GUI;
 import android.annotation.TargetApi;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -12,8 +13,10 @@ import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.provider.Settings;
+import android.support.annotation.IntegerRes;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -34,14 +37,18 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.rafaelpedrajas.ucar.Clases.Usuario;
 import com.rafaelpedrajas.ucar.Interfaces.VolleyCallback;
 import com.rafaelpedrajas.ucar.R;
+import com.rafaelpedrajas.ucar.Sesion.SessionManager;
 
 import org.json.JSONArray;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import fr.ganfra.materialspinner.MaterialSpinner;
 
@@ -67,17 +74,33 @@ public class EditarPerfil extends AppCompatActivity implements AdapterView.OnIte
     //Otras variables
 
     List<String> arrayNombreCiudades = new ArrayList<>();
+    List<String> arrayNombreUniversidades = new ArrayList<>();
 
-    MaterialSpinner spCiudades;
-    Spinner spUniversidad;
+    MaterialSpinner spProvincias,spUniversidades;
 
-    ArrayAdapter<String> aACiudades, aAUniversidad;
+    ArrayAdapter<String> aACiudades, aAUniversidades;
+
+    // Session Manager Class
+    SessionManager session;
+
+    HashMap<String, String> user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editar_perfil);
+
+        // Session class instance
+        session = new SessionManager(getApplicationContext());
+
+        //Comprobamos si esta logeado
+        session.checkLogin();
+
+        SharedPreferences settings = getSharedPreferences("AndroidHivePref", MODE_PRIVATE);
+        final SharedPreferences.Editor prefEditor = settings.edit();
+
+        user = session.getUserDetails();
 
         //Inicializar toolbar
         ImageButton back = (ImageButton) findViewById(R.id.back);
@@ -98,26 +121,30 @@ public class EditarPerfil extends AppCompatActivity implements AdapterView.OnIte
             }
         });
 
-        done.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                Intent aceptar = new Intent(getApplicationContext(),Perfil.class);
-                startActivity(aceptar);
-            }
-        });
 
+
+
+        //DATOS POR DEFECTO USUARIO
+
+        final TextInputEditText nombre = (TextInputEditText) findViewById(R.id.eTNombre);
+        final TextInputEditText apellido = (TextInputEditText) findViewById(R.id.eTApellido);
+        final TextInputEditText correo = (TextInputEditText) findViewById(R.id.eTCorreo);
+        final TextInputEditText telefono = (TextInputEditText) findViewById(R.id.eTTelefono);
+
+        nombre.setText(user.get(SessionManager.KEY_NOMBRE));
+        apellido.setText(user.get(SessionManager.KEY_APELLIDO));
+        correo.setText(user.get(SessionManager.KEY_CORREO));
+        telefono.setText(user.get(SessionManager.KEY_TELEFONO));
 
         /* SELECT CIUDADES */
         //Cargar las ciudades de la BD
-        spCiudades=(MaterialSpinner) findViewById(R.id.spCiudades);
-        spCiudades.setOnItemSelectedListener(this);
+        spProvincias=(MaterialSpinner) findViewById(R.id.spProvincias);
+        spProvincias.setOnItemSelectedListener(this);
 
         ciudadesBD(new VolleyCallback()
         {
             @Override
-            public void onSuccess(String result)
+            synchronized public void onSuccess(String result)
             {
                 Log.d("Tolocooo",result);
 
@@ -132,6 +159,13 @@ public class EditarPerfil extends AppCompatActivity implements AdapterView.OnIte
                         String nombreCiudad=jsonArray.getJSONObject(i).getString("nombre");
                         arrayNombreCiudades.add(nombreCiudad);
                     }
+
+                    //Mostrar las ciudades
+                    aACiudades=new ArrayAdapter<String>(getApplicationContext(),android.R.layout.simple_spinner_dropdown_item, arrayNombreCiudades);
+                    aACiudades.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    spProvincias.setAdapter(aACiudades);
+
+                    spProvincias.setSelection(Integer.parseInt(user.get(SessionManager.KEY_ID_PROVINCIA)));
                 }
                 catch(Exception e)
                 {
@@ -140,27 +174,122 @@ public class EditarPerfil extends AppCompatActivity implements AdapterView.OnIte
             }
         });
 
-        //Mostrar las ciudades
-        aACiudades=new ArrayAdapter<String>(this,android.R.layout.simple_spinner_dropdown_item, arrayNombreCiudades);
-        aACiudades.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spCiudades.setAdapter(aACiudades);
         /* FIN SELECT CIUDADES */
 
 
+        //SELECT UNIVERSIDAD
+        spUniversidades=(MaterialSpinner) findViewById(R.id.spUniversidades);
+        spUniversidades.setOnItemSelectedListener(this);
 
-        /*
-        Button botonModificar = (Button)findViewById(R.id.botonModificar);
-        botonModificar.setOnClickListener(new View.OnClickListener()
+        spUniversidades.setAdapter(new ArrayAdapter<String>(this,android.R.layout.simple_spinner_dropdown_item,arrayNombreUniversidades));
+
+        universidadesBD(new VolleyCallback()
+        {
+            @Override
+            synchronized public void onSuccess(String result)
+            {
+                JSONArray jsonArray= new JSONArray();
+
+                try
+                {
+                    if(!result.equals("No hay datos"))
+                    {
+                        jsonArray = new JSONArray(result);
+
+                        List<Integer> idsUniversidades=new ArrayList<Integer>();
+
+                        for(int i = 0; i < jsonArray.length(); i++)
+                        {
+                            String nombreUniversidad = jsonArray.getJSONObject(i).getString("nombre");
+                            Log.d("Nombre Universidad", nombreUniversidad);
+                            arrayNombreUniversidades.add(nombreUniversidad);
+
+                            idsUniversidades.add(jsonArray.getJSONObject(i).getInt("idUniversidad"));
+                        }
+
+                        aAUniversidades=new ArrayAdapter<String>(getApplicationContext(),android.R.layout.simple_spinner_dropdown_item, arrayNombreUniversidades);
+                        aAUniversidades.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        spUniversidades.setAdapter(aAUniversidades);
+
+                        int indexUniversidad=0;
+                        for(int i=0;i<idsUniversidades.size();i++)
+                        {
+                            if(idsUniversidades.get(i)==Integer.parseInt(user.get(SessionManager.KEY_ID_UNIVERSIDAD)))
+                            {
+                                indexUniversidad=i;
+                                i=idsUniversidades.size();
+                            }
+                        }
+
+                        //Ponemos la universidad del usuario seleccionada por defecto
+                        spUniversidades.setSelection(indexUniversidad);
+
+                    }
+                }
+                catch(Exception e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        },Integer.parseInt(user.get(SessionManager.KEY_ID_PROVINCIA)));
+
+
+
+
+
+        //GUARDAR DATOS EN BD Y EN SESION
+        done.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
             {
-                Intent i = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(i);
+                editarUsuario(new VolleyCallback()
+                {
+                    @Override
+                    synchronized public void onSuccess(String result)
+                    {
+                        JSONArray jsonArray;
+
+                        String nombreProvincia= spProvincias.getSelectedItem().toString();
+                        String nombreUniversidad= spUniversidades.getSelectedItem().toString();
+                        int idProvincia= spProvincias.getSelectedItemPosition();
+                        int indexUniversidad= spUniversidades.getSelectedItemPosition();
+
+                        try
+                        {
+
+                            if(!result.equals("No hay datos"))
+                            {
+                                jsonArray = new JSONArray(result);
+
+                                int idUniversidad = jsonArray.getJSONObject(0).getInt("idUniversidad");
+
+                                prefEditor.putString("correo",correo.getText().toString().trim());
+                                prefEditor.putString("nombre",nombre.getText().toString().trim());
+                                prefEditor.putString("apellido",apellido.getText().toString().trim());
+                                prefEditor.putString("telefono",telefono.getText().toString().trim());
+                                prefEditor.putString("nombreUniversidad",nombreUniversidad);
+                                prefEditor.putString("nombreProvincia",nombreProvincia);
+                                prefEditor.putString("idUniversidad",String.valueOf(idUniversidad));
+                                prefEditor.putString("idProvincia",String.valueOf(idProvincia));
+                                prefEditor.apply();
+
+                                Intent aceptar = new Intent(getApplicationContext(),Perfil.class);
+                                startActivity(aceptar);
+
+                            }
+                        }
+                        catch(Exception e)
+                        {
+                            e.printStackTrace();
+                        }
+                    }
+                },correo.getText().toString().trim(), nombre.getText().toString().trim(), apellido.getText().toString().trim(), telefono.getText().toString().trim(), spProvincias.getSelectedItemPosition(), spUniversidades.getSelectedItemPosition());
+
+
+
             }
         });
-        */
-
 
         //Usar camara
 
@@ -200,7 +329,7 @@ public class EditarPerfil extends AppCompatActivity implements AdapterView.OnIte
                 new Response.Listener<String>()
                 {
                     @Override
-                    public void onResponse(String response)
+                    synchronized public void onResponse(String response)
                     {
                         Log.d("Console",response);
                         callback.onSuccess(response);
@@ -210,7 +339,7 @@ public class EditarPerfil extends AppCompatActivity implements AdapterView.OnIte
                 new Response.ErrorListener()
                 {
                     @Override
-                    public void onErrorResponse(VolleyError error)
+                    synchronized public void onErrorResponse(VolleyError error)
                     {
                         Toast.makeText(EditarPerfil.this,error.toString(),Toast.LENGTH_LONG).show();
                     }
@@ -219,6 +348,87 @@ public class EditarPerfil extends AppCompatActivity implements AdapterView.OnIte
         RequestQueue queue = Volley.newRequestQueue(EditarPerfil.this);
         queue.add(stringRequest);
 
+    }
+
+    public void universidadesBD(final VolleyCallback callback, final int idProvincia)
+    {
+        JSONArray jsonArray= new JSONArray();
+
+        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+        String URL = "https://www.rafaelpedrajas.com/android/universidadesPorProvincia.php";
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>()
+        {
+            @Override
+            synchronized public void onResponse(String response)
+            {
+                Log.d("Console Universidades",response);
+                callback.onSuccess(response);
+            }
+        },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error)
+                    {
+                        Log.d("Console","Error en el web service");
+                    }
+                }
+        ){
+            @Override
+            synchronized protected Map<String, String> getParams()
+            {
+                Map<String, String>  params = new HashMap<String, String>();
+                params.put("idProvincia", String.valueOf(idProvincia));
+
+                return params;
+            }
+        };
+        queue.add(stringRequest);
+    }
+
+    public void editarUsuario(final VolleyCallback callback, final String correo, final String nombre, final String apellido, final String telefono, final int idProvincia, final int indexUniversidad)
+    {
+        JSONArray jsonArray= new JSONArray();
+
+        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+        String URL = "https://www.rafaelpedrajas.com/android/editarUsuario.php";
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>()
+        {
+            @Override
+            synchronized public void onResponse(String response)
+            {
+                Log.d("Console Editar Usuario",response);
+                callback.onSuccess(response);
+            }
+        },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error)
+                    {
+                        Log.d("Console","Error en el web service");
+                    }
+                }
+        ){
+            @Override
+            synchronized protected Map<String, String> getParams()
+            {
+                Log.d("ID PROVINCIA",String.valueOf(idProvincia));
+                Log.d("INDEX UNIVERSIDAD",String.valueOf(indexUniversidad));
+                Map<String, String>  params = new HashMap<String, String>();
+                params.put("correo", correo);
+                params.put("nombre", nombre);
+                params.put("apellido", apellido);
+                params.put("telefono", telefono);
+                params.put("idProvincia", String.valueOf(idProvincia));
+                params.put("indexUniversidad", String.valueOf(indexUniversidad));
+
+                return params;
+            }
+        };
+        queue.add(stringRequest);
     }
 
     //----------Funciones para poder usar la camara----
@@ -382,4 +592,3 @@ public class EditarPerfil extends AppCompatActivity implements AdapterView.OnIte
         volverAtras();
     }
 }
-
