@@ -248,15 +248,34 @@
                 app:ms_alignLabels="false"/>
 
 
-            <fr.ganfra.materialspinner.MaterialSpinner
-                android:id="@+id/spCoche"
+            <Button
+                android:id="@+id/BTCambiarPass"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cambiar Contraseña"
+                android:textSize="17sp"
+                android:layout_marginTop="10dp"
+                android:layout_gravity="center"
+                style="@style/Widget.AppCompat.Button.Borderless"/>
+
+            <View
                 android:layout_width="match_parent"
-                android:layout_height="70dp"
-                app:ms_multiline="false"
-                app:ms_hint="Selecciona un Coche"
-                app:ms_floatingLabelText="Coche"
-                app:ms_arrowSize="16dp"
-                app:ms_alignLabels="false"/>
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray"/>
+
+            <Button
+                android:id="@+id/BTEditarCoches"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Editar Coches"
+                android:textSize="17sp"
+                android:layout_gravity="center"
+                style="@style/Widget.AppCompat.Button.Borderless"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray"/>
 
 
 

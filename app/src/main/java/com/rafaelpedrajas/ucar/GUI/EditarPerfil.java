@@ -17,6 +17,7 @@ import android.support.annotation.IntegerRes;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -24,6 +25,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -290,6 +292,122 @@ public class EditarPerfil extends AppCompatActivity implements AdapterView.OnIte
 
             }
         });
+
+
+
+        //CAMBIAR CONTRASEÑA
+        Button cambiarPass = (Button)findViewById(R.id.BTCambiarPass);
+        cambiarPass.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                AlertDialog.Builder mBuilder = new AlertDialog.Builder(EditarPerfil.this);
+                View mView = getLayoutInflater().inflate(R.layout.cambiar_pass, null);
+
+                final TextInputLayout tILPassActual = mView.findViewById(R.id.tILPassActual);
+                final TextInputLayout tILNuevaPass = mView.findViewById(R.id.tILNuevaPass);
+                final TextInputLayout tILRepetirPass = mView.findViewById(R.id.tILRepetirPass);
+
+                final TextInputEditText passActual = mView.findViewById(R.id.eTPassActual);
+                final TextInputEditText nuevaPass = mView.findViewById(R.id.eTNuevaPass);
+                final TextInputEditText repetirPass = mView.findViewById(R.id.eTRepetirPass);
+                Button aceptarCambiarPass = mView.findViewById(R.id.aceptarCambiarPass);
+                Button cancelarCambiarPass = mView.findViewById(R.id.cancelarCambiarPass);
+
+                //Aceptar cambiar pass
+                aceptarCambiarPass.setOnClickListener(new View.OnClickListener()
+                {
+                    @Override
+                    public void onClick(View view)
+                    {
+                        boolean confirmarPrimerRegistro=true;
+
+                        //Comprobar contraseña actual
+                        if(passActual.getText().toString().trim().equals(""))
+                        {
+                            confirmarPrimerRegistro=false;
+                            tILPassActual.setError("La contraseña actual es obligatoria");
+                        }
+                        else
+                        {
+                            tILPassActual.setError(null);
+                        }
+
+                        //Comprobar nueva contraseña
+                        if(nuevaPass.getText().toString().trim().equals(""))
+                        {
+                            confirmarPrimerRegistro=false;
+                            tILNuevaPass.setError("La nueva contraseña es obligatoria");
+                        }
+                        else
+                        {
+                            tILNuevaPass.setError(null);
+                        }
+
+                        //Comprobar repetir contraseña
+                        if(repetirPass.getText().toString().trim().equals(""))
+                        {
+                            confirmarPrimerRegistro=false;
+                            tILRepetirPass.setError("Repetir la nueva contraseña es obligatorio");
+                        }
+                        else
+                        {
+                            tILRepetirPass.setError(null);
+                        }
+
+                        //Comprobar que la nueva contraseña coincide con repetir contraseña
+                        if(!nuevaPass.getText().toString().trim().equals("") && !repetirPass.getText().toString().trim().equals(""))
+                        {
+                            if(!nuevaPass.getText().toString().trim().equals(repetirPass.getText().toString().trim()))
+                            {
+                                confirmarPrimerRegistro=false;
+                                tILRepetirPass.setError("La contraseña nueva debe coincidir");
+                            }
+                            else
+                            {
+                                tILRepetirPass.setError(null);
+                            }
+                        }
+
+                        //HACER EL AJAX PARA COMPROBAR LA CONTRASEÑA ACTUAL Y GUARDAR LA CONTRASEÑA NUEVA
+                    }
+                });
+
+                mBuilder.setView(mView);
+                final AlertDialog dialog = mBuilder.create();
+                dialog.show();
+
+                //Cancelar cambiar pass
+                cancelarCambiarPass.setOnClickListener(new View.OnClickListener()
+                {
+                    @Override
+                    public void onClick(View view)
+                    {
+                        dialog.cancel();
+                    }
+                });
+
+
+            }
+        });
+
+
+        //EDITAR COCHES
+        Button editarCoches = (Button)findViewById(R.id.BTEditarCoches);
+        editarCoches.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                AlertDialog.Builder mBuilder = new AlertDialog.Builder(EditarPerfil.this);
+                View mView = getLayoutInflater().inflate(R.layout.editar_coches, null);
+
+                //Cargar los coches del usuario en el spinner
+            }
+        });
+
+
 
         //Usar camara
 
