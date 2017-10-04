@@ -7,4 +7,6 @@
     <string name="action_settings">Settings</string>
     <string name="cambiarContraseña">Cambiar Contraseña</string>
     <string name="editarCoches">Editar Coches</string>
+    <string name="cochePorDefecto">Coche por defecto</string>
+    <string name="eliminarCoche">Eliminar coche</string>
 </resources>

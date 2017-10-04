@@ -13,7 +13,6 @@ import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.provider.Settings;
-import android.support.annotation.IntegerRes;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
@@ -29,7 +28,6 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,7 +37,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.rafaelpedrajas.ucar.Clases.Usuario;
 import com.rafaelpedrajas.ucar.Interfaces.VolleyCallback;
 import com.rafaelpedrajas.ucar.R;
 import com.rafaelpedrajas.ucar.Sesion.SessionManager;
@@ -77,10 +74,12 @@ public class EditarPerfil extends AppCompatActivity implements AdapterView.OnIte
 
     List<String> arrayNombreCiudades = new ArrayList<>();
     List<String> arrayNombreUniversidades = new ArrayList<>();
+    List<String> arrayNombreCoches = new ArrayList<>();
 
-    MaterialSpinner spProvincias,spUniversidades;
+    MaterialSpinner spProvincias, spUniversidades, spCoches, spPlazas, spAños;
 
-    ArrayAdapter<String> aACiudades, aAUniversidades;
+    ArrayAdapter<String> aACiudades, aAUniversidades, aACoches;
+    ArrayAdapter<CharSequence> aAPlazas, aAAños;
 
     // Session Manager Class
     SessionManager session;
@@ -163,8 +162,8 @@ public class EditarPerfil extends AppCompatActivity implements AdapterView.OnIte
                     }
 
                     //Mostrar las ciudades
-                    aACiudades=new ArrayAdapter<String>(getApplicationContext(),android.R.layout.simple_spinner_dropdown_item, arrayNombreCiudades);
-                    aACiudades.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    aACiudades=new ArrayAdapter<String>(getApplicationContext(),R.layout.estilo_spinner, arrayNombreCiudades);
+                    aACiudades.setDropDownViewResource(R.layout.estilo_items_spinner);
                     spProvincias.setAdapter(aACiudades);
 
                     spProvincias.setSelection(Integer.parseInt(user.get(SessionManager.KEY_ID_PROVINCIA)));
@@ -209,8 +208,8 @@ public class EditarPerfil extends AppCompatActivity implements AdapterView.OnIte
                             idsUniversidades.add(jsonArray.getJSONObject(i).getInt("idUniversidad"));
                         }
 
-                        aAUniversidades=new ArrayAdapter<String>(getApplicationContext(),android.R.layout.simple_spinner_dropdown_item, arrayNombreUniversidades);
-                        aAUniversidades.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        aAUniversidades=new ArrayAdapter<String>(getApplicationContext(),R.layout.estilo_spinner, arrayNombreUniversidades);
+                        aAUniversidades.setDropDownViewResource(R.layout.estilo_items_spinner);
                         spUniversidades.setAdapter(aAUniversidades);
 
                         int indexUniversidad=0;
@@ -403,7 +402,61 @@ public class EditarPerfil extends AppCompatActivity implements AdapterView.OnIte
                 AlertDialog.Builder mBuilder = new AlertDialog.Builder(EditarPerfil.this);
                 View mView = getLayoutInflater().inflate(R.layout.editar_coches, null);
 
+                spCoches=mView.findViewById(R.id.spCoches);
+                spCoches.setOnItemSelectedListener(EditarPerfil.this);
+
+                spPlazas= mView.findViewById(R.id.spPlazas);
+                spAños= mView.findViewById(R.id.spAños);
+
                 //Cargar los coches del usuario en el spinner
+                cochesUsuario(new VolleyCallback()
+                {
+                    @Override
+                    public void onSuccess(String result)
+                    {
+                        JSONArray jsonArray= new JSONArray();
+
+                        try
+                        {
+                            if(!result.equals("No hay datos"))
+                            {
+                                jsonArray = new JSONArray(result);
+
+                                for(int i = 0; i < jsonArray.length(); i++)
+                                {
+                                    String marca = jsonArray.getJSONObject(i).getString("marca");
+                                    String modelo = jsonArray.getJSONObject(i).getString("modelo");
+                                    int año = jsonArray.getJSONObject(i).getInt("año");
+                                    int plazas = jsonArray.getJSONObject(i).getInt("plazas");
+                                    double consumo = jsonArray.getJSONObject(i).getDouble("consumo");
+                                    Log.d("Marca - Modelo", marca+" - "+modelo);
+
+                                    arrayNombreCoches.add(marca+" "+modelo);
+                                }
+                            }
+                        }
+                        catch(Exception e)
+                        {
+                            e.printStackTrace();
+                        }
+                    }
+                },Integer.parseInt(user.get(SessionManager.KEY_ID_USUARIO)));
+
+                aACoches=new ArrayAdapter<String>(getApplicationContext(),R.layout.estilo_spinner, arrayNombreCoches);
+                aACoches.setDropDownViewResource(R.layout.estilo_items_spinner);
+                spCoches.setAdapter(aACoches);
+
+                aAPlazas = ArrayAdapter.createFromResource(getApplicationContext(), R.array.opcionesPlaza, R.layout.estilo_spinner);
+                aAPlazas.setDropDownViewResource(R.layout.estilo_items_spinner);
+                spPlazas.setAdapter(aAPlazas);
+
+                aAAños = ArrayAdapter.createFromResource(getApplicationContext(), R.array.opcionesAño, R.layout.estilo_spinner);
+                aAAños.setDropDownViewResource(R.layout.estilo_items_spinner);
+                spAños.setAdapter(aAAños);
+
+                mBuilder.setView(mView);
+                final AlertDialog dialog = mBuilder.create();
+                dialog.show();
             }
         });
 
@@ -498,6 +551,43 @@ public class EditarPerfil extends AppCompatActivity implements AdapterView.OnIte
             {
                 Map<String, String>  params = new HashMap<String, String>();
                 params.put("idProvincia", String.valueOf(idProvincia));
+
+                return params;
+            }
+        };
+        queue.add(stringRequest);
+    }
+
+    public void cochesUsuario(final VolleyCallback callback, final int idUsuario)
+    {
+        JSONArray jsonArray= new JSONArray();
+
+        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+        String URL = "https://www.rafaelpedrajas.com/android/cochesUsuario.php";
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>()
+        {
+            @Override
+            public void onResponse(String response)
+            {
+                Log.d("Console Coches",response);
+                callback.onSuccess(response);
+            }
+        },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error)
+                    {
+                        Log.d("Console","Error en el web service");
+                    }
+                }
+        ){
+            @Override
+            protected Map<String, String> getParams()
+            {
+                Map<String, String>  params = new HashMap<String, String>();
+                params.put("idUsuario", String.valueOf(idUsuario));
 
                 return params;
             }

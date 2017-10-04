@@ -38,6 +38,7 @@ public class SessionManager
 
     // Email address (make variable public to access from outside)
     public static final String KEY_USUARIO= "usuario";
+    public static final String KEY_ID_USUARIO= "idUsuario";
     public static final String KEY_NOMBRE = "nombre";
     public static final String KEY_APELLIDO = "apellido";
     public static final String KEY_FOTO = "foto";
@@ -65,7 +66,7 @@ public class SessionManager
     /**
      * Create login session
      * */
-    public void createLoginSession(String correo, String nombre, String apellido, String foto, String telefono, String nombreUniversidad, String nombreProvincia, String marcaCoche, String modeloCoche, String idUniversidad, String idProvincia, String idCoche, String plazasCoche, String valoracionPuntualidad, String valoracionAmabilidad, String valoracionConduccion){
+    public void createLoginSession(String idUsuario, String correo, String nombre, String apellido, String foto, String telefono, String nombreUniversidad, String nombreProvincia, String marcaCoche, String modeloCoche, String idUniversidad, String idProvincia, String idCoche, String plazasCoche, String valoracionPuntualidad, String valoracionAmabilidad, String valoracionConduccion){
         // Storing login value as TRUE
         editor.putBoolean(IS_LOGIN, true);
 
@@ -73,6 +74,7 @@ public class SessionManager
         editor.putString(KEY_CORREO, correo);
 
         // Storing email in pref
+        editor.putString(KEY_ID_USUARIO, idUsuario);
         editor.putString(KEY_NOMBRE, nombre);
         editor.putString(KEY_APELLIDO, apellido);
         editor.putString(KEY_FOTO, foto);
@@ -155,6 +157,7 @@ public class SessionManager
 
         HashMap<String, String> user = new HashMap<String, String>();
 
+        user.put(KEY_ID_USUARIO,pref.getString(KEY_ID_USUARIO, null));
         user.put(KEY_CORREO,pref.getString(KEY_CORREO, null));
         user.put(KEY_NOMBRE,pref.getString(KEY_NOMBRE, null));
         user.put(KEY_APELLIDO,pref.getString(KEY_APELLIDO, null));

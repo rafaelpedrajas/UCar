@@ -130,6 +130,7 @@ public class Login extends AppCompatActivity
                                 jsonArray = new JSONArray(result);
 
                                 session.createLoginSession(
+                                        jsonArray.getJSONObject(0).getString("idUsuario"),
                                         jsonArray.getJSONObject(0).getString("correo"),
                                         jsonArray.getJSONObject(0).getString("nombre"),
                                         jsonArray.getJSONObject(0).getString("apellido"),
