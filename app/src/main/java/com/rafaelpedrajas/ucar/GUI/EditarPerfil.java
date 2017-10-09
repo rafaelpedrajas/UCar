@@ -25,6 +25,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -80,6 +81,8 @@ public class EditarPerfil extends AppCompatActivity implements AdapterView.OnIte
 
     ArrayAdapter<String> aACiudades, aAUniversidades, aACoches;
     ArrayAdapter<CharSequence> aAPlazas, aAAños;
+
+    EditText etMarca, etModelo, eTConsumo;
 
     // Session Manager Class
     SessionManager session;
@@ -404,10 +407,16 @@ public class EditarPerfil extends AppCompatActivity implements AdapterView.OnIte
 
                 spCoches=mView.findViewById(R.id.spCoches);
                 spCoches.setOnItemSelectedListener(EditarPerfil.this);
+                spCoches.setOnItemSelectedListener(EditarPerfil.this);
 
                 spPlazas= mView.findViewById(R.id.spPlazas);
                 spAños= mView.findViewById(R.id.spAños);
 
+                etMarca=mView.findViewById(R.id.eTMarca);
+                etModelo=mView.findViewById(R.id.eTModelo);
+                eTConsumo=mView.findViewById(R.id.eTConsumo);
+
+                arrayNombreCoches.clear();
                 //Cargar los coches del usuario en el spinner
                 cochesUsuario(new VolleyCallback()
                 {
@@ -481,7 +490,87 @@ public class EditarPerfil extends AppCompatActivity implements AdapterView.OnIte
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l)
     {
+        switch (adapterView.getId())
+        {
+            case R.id.spCoches:
+            {
 
+                Log.d("Item spinner",String.valueOf(i));
+
+                //Si ha seleccionado algun coche, cargamos los datos de ese coche
+                if(i!=-1)
+                {
+                    //Primero ponemos por defecto todo "vacio"
+                    etMarca.setText("");
+                    etModelo.setText("");
+                    eTConsumo.setText("");
+                    spPlazas.setSelection(0);
+                    spAños.setSelection(0);
+
+                    //Obtenemos los datos del coche
+                    universidadesBD(new VolleyCallback()
+                    {
+                        @Override
+                        public void onSuccess(String result)
+                        {
+                            JSONArray jsonArray= new JSONArray();
+
+                            try
+                            {
+                                if(!result.equals("No hay datos"))
+                                {
+                                    jsonArray = new JSONArray(result);
+
+                                    for(int i = 0; i < jsonArray.length(); i++)
+                                    {
+                                        String nombreUniversidad = jsonArray.getJSONObject(i).getString("nombre");
+                                        Log.d("Nombre Universidad", nombreUniversidad);
+                                        arrayNombreUniversidades.add(nombreUniversidad);
+                                    }
+                                }
+                            }
+                            catch(Exception e)
+                            {
+                                e.printStackTrace();
+                            }
+                        }
+                    },i+1);
+
+                    aAUniversidades=new ArrayAdapter<String>(this,android.R.layout.simple_spinner_dropdown_item, arrayNombreUniversidades);
+                    aAUniversidades.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    spUniversidades.setAdapter(aAUniversidades);
+
+                }
+                else
+                {
+                    etMarca.setText("");
+                    etModelo.setText("");
+                    eTConsumo.setText("");
+                    spPlazas.setSelection(0);
+                    spAños.setSelection(0);
+                }
+
+                /*
+                switch(i)
+                {
+                    case 0:
+                        Toast.makeText(adapterView.getContext(), "Spinner item 1!", Toast.LENGTH_SHORT).show();
+                        break;
+                    case 1:
+                        Toast.makeText(adapterView.getContext(), "Spinner item 2!", Toast.LENGTH_SHORT).show();
+                        break;
+                    case 2:
+                        Toast.makeText(adapterView.getContext(), "Spinner item 3!", Toast.LENGTH_SHORT).show();
+                        break;
+                    default:
+                        Toast.makeText(adapterView.getContext(), "Nada seleccionado", Toast.LENGTH_SHORT).show();
+                        break;
+                }
+                */
+
+                break;
+            }
+        }
     }
 
     @Override
