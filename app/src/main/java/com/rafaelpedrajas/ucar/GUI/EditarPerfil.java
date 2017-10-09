@@ -38,6 +38,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.rafaelpedrajas.ucar.Clases.Coche;
 import com.rafaelpedrajas.ucar.Interfaces.VolleyCallback;
 import com.rafaelpedrajas.ucar.R;
 import com.rafaelpedrajas.ucar.Sesion.SessionManager;
@@ -46,6 +47,7 @@ import org.json.JSONArray;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -76,6 +78,17 @@ public class EditarPerfil extends AppCompatActivity implements AdapterView.OnIte
     List<String> arrayNombreCiudades = new ArrayList<>();
     List<String> arrayNombreUniversidades = new ArrayList<>();
     List<String> arrayNombreCoches = new ArrayList<>();
+
+    //String para recoger los datos que se almacenan en R.array.plazas y R.array.años
+    String[] stringPlazas;
+    String[] stringAños;
+
+    //Listas para convertir los String[] plazas y años en Listas y poder usar el "indexOf" para marcar en el spinner las plazas y años del coche
+    List<String> arrayPlazas;
+    List<String> arrayAños;
+
+    List<Coche> arrayCoches = new ArrayList<>();
+    List<Coche> arrayCochesBorrados = new ArrayList<>();
 
     MaterialSpinner spProvincias, spUniversidades, spCoches, spPlazas, spAños;
 
@@ -125,6 +138,15 @@ public class EditarPerfil extends AppCompatActivity implements AdapterView.OnIte
             }
         });
 
+
+        //Agregamos las plazas y los años por defecto
+        //Obtenemos los datos de R.array....
+        stringPlazas = getResources().getStringArray(R.array.opcionesPlaza);
+        stringAños = getResources().getStringArray(R.array.opcionesAño);
+
+        //Los convertimos en listas
+        arrayPlazas = Arrays.asList(stringPlazas);
+        arrayAños = Arrays.asList(stringAños);
 
 
 
@@ -226,7 +248,7 @@ public class EditarPerfil extends AppCompatActivity implements AdapterView.OnIte
                         }
 
                         //Ponemos la universidad del usuario seleccionada por defecto
-                        spUniversidades.setSelection(indexUniversidad);
+                        spUniversidades.setSelection(indexUniversidad+1);
 
                     }
                 }
@@ -395,6 +417,44 @@ public class EditarPerfil extends AppCompatActivity implements AdapterView.OnIte
         });
 
 
+        //CREAR ARRAY DE COCHES
+        cochesUsuario(new VolleyCallback()
+        {
+            @Override
+            public void onSuccess(String result)
+            {
+                JSONArray jsonArray= new JSONArray();
+
+                try
+                {
+                    if(!result.equals("No hay datos"))
+                    {
+                        jsonArray = new JSONArray(result);
+
+                        for(int i = 0; i < jsonArray.length(); i++)
+                        {
+                            int idCoche = jsonArray.getJSONObject(i).getInt("idCoche");
+                            String marca = jsonArray.getJSONObject(i).getString("marca");
+                            String modelo = jsonArray.getJSONObject(i).getString("modelo");
+                            int año = jsonArray.getJSONObject(i).getInt("año");
+                            int plazas = jsonArray.getJSONObject(i).getInt("plazas");
+                            double consumo = jsonArray.getJSONObject(i).getDouble("consumo");
+                            int porDefecto = jsonArray.getJSONObject(i).getInt("porDefecto");
+
+                            Coche coche = new Coche(idCoche,año,plazas,marca,modelo,consumo,porDefecto);
+                            arrayCoches.add(coche);
+
+                        }
+                    }
+                }
+                catch(Exception e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        },Integer.parseInt(user.get(SessionManager.KEY_ID_USUARIO)));
+        //FIN CREAR ARRAY DE COCHES
+
         //EDITAR COCHES
         Button editarCoches = (Button)findViewById(R.id.BTEditarCoches);
         editarCoches.setOnClickListener(new View.OnClickListener()
@@ -507,6 +567,21 @@ public class EditarPerfil extends AppCompatActivity implements AdapterView.OnIte
                     spPlazas.setSelection(0);
                     spAños.setSelection(0);
 
+                    //Rellenamos los datos del coche con el array de coches
+                    String marca = arrayCoches.get(i).getMarca();
+                    String modelo = arrayCoches.get(i).getModelo();
+                    String consumo = String.valueOf(arrayCoches.get(i).getConsumo());
+                    int plazas = arrayCoches.get(i).getPlazas();
+                    int años = arrayCoches.get(i).getAño();
+
+                    etMarca.setText(marca);
+                    etModelo.setText(modelo);
+                    eTConsumo.setText(consumo);
+                    spPlazas.setSelection(arrayPlazas.indexOf(String.valueOf(plazas+1)));
+                    spAños.setSelection(arrayAños.indexOf(String.valueOf(años+1)));
+
+
+                    /*
                     //Obtenemos los datos del coche
                     universidadesBD(new VolleyCallback()
                     {
@@ -539,6 +614,7 @@ public class EditarPerfil extends AppCompatActivity implements AdapterView.OnIte
                     aAUniversidades=new ArrayAdapter<String>(this,android.R.layout.simple_spinner_dropdown_item, arrayNombreUniversidades);
                     aAUniversidades.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     spUniversidades.setAdapter(aAUniversidades);
+                    */
 
                 }
                 else

@@ -9,4 +9,5 @@
     <string name="editarCoches">Editar Coches</string>
     <string name="cochePorDefecto">Coche por defecto</string>
     <string name="eliminarCoche">Eliminar coche</string>
+    <string name="añadirCoche">Añadir Coche</string>
 </resources>
