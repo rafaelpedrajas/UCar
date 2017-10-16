@@ -10,4 +10,8 @@
     <string name="cochePorDefecto">Coche por defecto</string>
     <string name="eliminarCoche">Eliminar coche</string>
     <string name="añadirCoche">Añadir Coche</string>
+    <string name="cancelar">Cancelar</string>
+    <string name="aceptar">Aceptar</string>
+    <string name="marca">Marca</string>
+    <string name="modelo">Modelo</string>
 </resources>

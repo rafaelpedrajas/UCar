@@ -2,16 +2,15 @@ package com.rafaelpedrajas.ucar.Clases;
 
 public class Coche {
 
-    private int idCoche, año, plazas, porDefecto;
-    private String marca, modelo;
-    private double consumo;
+    private int idCoche, porDefecto;
+    private String marca, modelo, plazas, año, consumo;
 
-    public Coche(int idCoche, int año, int plazas, String marca, String modelo, double consumo, int porDefecto) {
+    public Coche(int idCoche, String marca, String modelo, String plazas, String año, String consumo, int porDefecto) {
         this.idCoche = idCoche;
-        this.año = año;
-        this.plazas = plazas;
         this.marca = marca;
         this.modelo = modelo;
+        this.plazas = plazas;
+        this.año = año;
         this.consumo = consumo;
         this.porDefecto = porDefecto;
     }
@@ -28,20 +27,12 @@ public class Coche {
         this.idCoche = idCoche;
     }
 
-    public int getAño() {
-        return año;
+    public int getPorDefecto() {
+        return porDefecto;
     }
 
-    public void setAño(int año) {
-        this.año = año;
-    }
-
-    public int getPlazas() {
-        return plazas;
-    }
-
-    public void setPlazas(int plazas) {
-        this.plazas = plazas;
+    public void setPorDefecto(int porDefecto) {
+        this.porDefecto = porDefecto;
     }
 
     public String getMarca() {
@@ -60,19 +51,27 @@ public class Coche {
         this.modelo = modelo;
     }
 
-    public double getConsumo() {
+    public String getPlazas() {
+        return plazas;
+    }
+
+    public void setPlazas(String plazas) {
+        this.plazas = plazas;
+    }
+
+    public String getAño() {
+        return año;
+    }
+
+    public void setAño(String año) {
+        this.año = año;
+    }
+
+    public String getConsumo() {
         return consumo;
     }
 
-    public void setConsumo(double consumo) {
+    public void setConsumo(String consumo) {
         this.consumo = consumo;
-    }
-
-    public int isPorDefecto() {
-        return porDefecto;
-    }
-
-    public void setPorDefecto(int porDefecto) {
-        this.porDefecto = porDefecto;
     }
 }

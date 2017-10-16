@@ -20,6 +20,9 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.SwitchCompat;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -38,12 +41,14 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
 import com.rafaelpedrajas.ucar.Clases.Coche;
 import com.rafaelpedrajas.ucar.Interfaces.VolleyCallback;
 import com.rafaelpedrajas.ucar.R;
 import com.rafaelpedrajas.ucar.Sesion.SessionManager;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -73,6 +78,8 @@ public class EditarPerfil extends AppCompatActivity implements AdapterView.OnIte
     private ImageView mSetImage;
     private LinearLayout linearLayoutContenedorImagen;
 
+    private int posicionCochePorDefecto=0;
+
     //Otras variables
 
     List<String> arrayNombreCiudades = new ArrayList<>();
@@ -95,7 +102,10 @@ public class EditarPerfil extends AppCompatActivity implements AdapterView.OnIte
     ArrayAdapter<String> aACiudades, aAUniversidades, aACoches;
     ArrayAdapter<CharSequence> aAPlazas, aAAños;
 
+    TextInputLayout tILMarca, tILModelo, tILConsumo;
     EditText etMarca, etModelo, eTConsumo;
+
+    SwitchCompat switchCochePorDefecto;
 
     // Session Manager Class
     SessionManager session;
@@ -417,6 +427,7 @@ public class EditarPerfil extends AppCompatActivity implements AdapterView.OnIte
         });
 
 
+        /*
         //CREAR ARRAY DE COCHES
         cochesUsuario(new VolleyCallback()
         {
@@ -436,14 +447,19 @@ public class EditarPerfil extends AppCompatActivity implements AdapterView.OnIte
                             int idCoche = jsonArray.getJSONObject(i).getInt("idCoche");
                             String marca = jsonArray.getJSONObject(i).getString("marca");
                             String modelo = jsonArray.getJSONObject(i).getString("modelo");
-                            int año = jsonArray.getJSONObject(i).getInt("año");
-                            int plazas = jsonArray.getJSONObject(i).getInt("plazas");
-                            double consumo = jsonArray.getJSONObject(i).getDouble("consumo");
+                            String plazas = jsonArray.getJSONObject(i).getString("plazas");
+                            String año = jsonArray.getJSONObject(i).getString("año");
+                            String consumo = jsonArray.getJSONObject(i).getString("consumo");
                             int porDefecto = jsonArray.getJSONObject(i).getInt("porDefecto");
 
-                            Coche coche = new Coche(idCoche,año,plazas,marca,modelo,consumo,porDefecto);
+                            Coche coche = new Coche(idCoche,marca,modelo,plazas,año,consumo,porDefecto);
                             arrayCoches.add(coche);
 
+                            //Nos quedamos con el coche por defecto para luego cuando le de a editar coches, se marque el coche por defecto
+                            if(porDefecto==1)
+                            {
+                                posicionCochePorDefecto=i;
+                            }
                         }
                     }
                 }
@@ -454,6 +470,7 @@ public class EditarPerfil extends AppCompatActivity implements AdapterView.OnIte
             }
         },Integer.parseInt(user.get(SessionManager.KEY_ID_USUARIO)));
         //FIN CREAR ARRAY DE COCHES
+        */
 
         //EDITAR COCHES
         Button editarCoches = (Button)findViewById(R.id.BTEditarCoches);
@@ -462,22 +479,9 @@ public class EditarPerfil extends AppCompatActivity implements AdapterView.OnIte
             @Override
             public void onClick(View view)
             {
-                AlertDialog.Builder mBuilder = new AlertDialog.Builder(EditarPerfil.this);
-                View mView = getLayoutInflater().inflate(R.layout.editar_coches, null);
 
-                spCoches=mView.findViewById(R.id.spCoches);
-                spCoches.setOnItemSelectedListener(EditarPerfil.this);
-                spCoches.setOnItemSelectedListener(EditarPerfil.this);
-
-                spPlazas= mView.findViewById(R.id.spPlazas);
-                spAños= mView.findViewById(R.id.spAños);
-
-                etMarca=mView.findViewById(R.id.eTMarca);
-                etModelo=mView.findViewById(R.id.eTModelo);
-                eTConsumo=mView.findViewById(R.id.eTConsumo);
-
-                arrayNombreCoches.clear();
-                //Cargar los coches del usuario en el spinner
+                //Cada vez que pulsemos en editar, obtenemos los coches de la bd y lo asignamos a un array de coches
+                //CREAR ARRAY DE COCHES
                 cochesUsuario(new VolleyCallback()
                 {
                     @Override
@@ -491,17 +495,118 @@ public class EditarPerfil extends AppCompatActivity implements AdapterView.OnIte
                             {
                                 jsonArray = new JSONArray(result);
 
+                                //Borramos el array de coches
+                                arrayCoches.clear();
                                 for(int i = 0; i < jsonArray.length(); i++)
                                 {
+                                    int idCoche = jsonArray.getJSONObject(i).getInt("idCoche");
                                     String marca = jsonArray.getJSONObject(i).getString("marca");
                                     String modelo = jsonArray.getJSONObject(i).getString("modelo");
-                                    int año = jsonArray.getJSONObject(i).getInt("año");
-                                    int plazas = jsonArray.getJSONObject(i).getInt("plazas");
-                                    double consumo = jsonArray.getJSONObject(i).getDouble("consumo");
-                                    Log.d("Marca - Modelo", marca+" - "+modelo);
+                                    String plazas = jsonArray.getJSONObject(i).getString("plazas");
+                                    String año = jsonArray.getJSONObject(i).getString("año");
+                                    String consumo = jsonArray.getJSONObject(i).getString("consumo");
+                                    int porDefecto = jsonArray.getJSONObject(i).getInt("porDefecto");
 
-                                    arrayNombreCoches.add(marca+" "+modelo);
+                                    //Vamos añadiendo cada coche al array
+                                    Coche coche = new Coche(idCoche,marca,modelo,plazas,año,consumo,porDefecto);
+                                    arrayCoches.add(coche);
+
+                                    //Nos quedamos con el coche por defecto para luego cuando le de a editar coches, se marque el coche por defecto
+                                    if(porDefecto==1)
+                                    {
+                                        posicionCochePorDefecto=i;
+                                    }
                                 }
+
+                                //Nos creamos un AlertDialog y a traves de el obtenemos los objetos que hay dentro
+                                AlertDialog.Builder mBuilder = new AlertDialog.Builder(EditarPerfil.this);
+                                View mView = getLayoutInflater().inflate(R.layout.editar_coches, null);
+
+                                Button aceptarEditarCoche = mView.findViewById(R.id.aceptarEditarCoche);
+                                Button cancelarEditarCoche = mView.findViewById(R.id.cancelarEditarCoche);
+
+                                ImageButton borrarCoche = mView.findViewById(R.id.borrarCoche);
+
+                                spCoches=mView.findViewById(R.id.spCoches);
+                                spCoches.setOnItemSelectedListener(EditarPerfil.this);
+
+                                spPlazas= mView.findViewById(R.id.spPlazas);
+                                spAños= mView.findViewById(R.id.spAños);
+
+                                etMarca=mView.findViewById(R.id.eTMarca);
+                                etModelo=mView.findViewById(R.id.eTModelo);
+                                eTConsumo=mView.findViewById(R.id.eTConsumo);
+
+                                switchCochePorDefecto=mView.findViewById(R.id.switchCochePorDefecto);
+
+
+                                //Recorremos la lista de coches del usuario
+                                arrayNombreCoches.clear();
+                                for(int i=0; i<arrayCoches.size();i++)
+                                {
+                                    arrayNombreCoches.add(arrayCoches.get(i).getMarca()+" "+arrayCoches.get(i).getModelo());
+                                }
+
+                                //Asignamos al spinner de coches los nombres
+                                aACoches=new ArrayAdapter<String>(getApplicationContext(),R.layout.estilo_spinner, arrayNombreCoches);
+                                aACoches.setDropDownViewResource(R.layout.estilo_items_spinner);
+                                spCoches.setAdapter(aACoches);
+
+                                spCoches.setSelection(posicionCochePorDefecto+1);
+
+                                aAPlazas = ArrayAdapter.createFromResource(getApplicationContext(), R.array.opcionesPlaza, R.layout.estilo_spinner);
+                                aAPlazas.setDropDownViewResource(R.layout.estilo_items_spinner);
+                                spPlazas.setAdapter(aAPlazas);
+
+                                aAAños = ArrayAdapter.createFromResource(getApplicationContext(), R.array.opcionesAño, R.layout.estilo_spinner);
+                                aAAños.setDropDownViewResource(R.layout.estilo_items_spinner);
+                                spAños.setAdapter(aAAños);
+
+                                mBuilder.setView(mView);
+                                final AlertDialog dialog = mBuilder.create();
+                                dialog.show();
+
+                                //Cancelar editar coche
+                                cancelarEditarCoche.setOnClickListener(new View.OnClickListener()
+                                {
+                                    @Override
+                                    public void onClick(View view)
+                                    {
+                                        dialog.cancel();
+                                    }
+                                });
+
+                                //Cancelar editar coche
+                                aceptarEditarCoche.setOnClickListener(new View.OnClickListener()
+                                {
+                                    @Override
+                                    public void onClick(View view)
+                                    {
+                                        dialog.cancel();
+                                    }
+                                });
+
+                                borrarCoche.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+
+                                        //Añadimos el coche al array de coches a borrar
+                                        arrayCochesBorrados.add(arrayCoches.get(spCoches.getSelectedItemPosition()-1));
+
+                                        //Eliminamos el coche del array de coches
+                                        arrayCoches.remove(spCoches.getSelectedItemPosition()-1);
+                                        //Eliminamos el coche del array de NOMBRES de coches, que se utiliza para generar el select de coches
+                                        arrayNombreCoches.remove(spCoches.getSelectedItemPosition()-1);
+
+                                        //Reinicializamos el spinner de coches, con los coches restantes
+                                        spCoches.setAdapter(aACoches);
+
+                                        for(int i=0;i<arrayCoches.size();i++)
+                                        {
+                                            Log.d("Console nombre coche",arrayCoches.get(i).getMarca());
+                                        }
+                                    }
+                                });
                             }
                         }
                         catch(Exception e)
@@ -510,10 +615,38 @@ public class EditarPerfil extends AppCompatActivity implements AdapterView.OnIte
                         }
                     }
                 },Integer.parseInt(user.get(SessionManager.KEY_ID_USUARIO)));
+                //FIN CREAR ARRAY DE COCHES
 
-                aACoches=new ArrayAdapter<String>(getApplicationContext(),R.layout.estilo_spinner, arrayNombreCoches);
-                aACoches.setDropDownViewResource(R.layout.estilo_items_spinner);
-                spCoches.setAdapter(aACoches);
+            }
+        });
+        //FIN EDITAR COCHES
+
+        //AÑADIR COCHES
+        final Button añadirCoche = (Button)findViewById(R.id.BTAñadirCoche);
+        añadirCoche.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                AlertDialog.Builder mBuilder = new AlertDialog.Builder(EditarPerfil.this);
+                View mView = getLayoutInflater().inflate(R.layout.add_coche, null);
+
+                Button aceptarAñadirCoche = mView.findViewById(R.id.aceptarAñadirCoche);
+                Button cancelarAñadirCoche = mView.findViewById(R.id.cancelarAñadirCoche);
+
+                spPlazas= mView.findViewById(R.id.spPlazas);
+                spAños= mView.findViewById(R.id.spAños);
+
+                etMarca=mView.findViewById(R.id.eTMarca);
+                etModelo=mView.findViewById(R.id.eTModelo);
+                eTConsumo=mView.findViewById(R.id.eTConsumo);
+
+                switchCochePorDefecto=mView.findViewById(R.id.switchCochePorDefecto);
+
+                tILMarca=mView.findViewById(R.id.tILMarca);
+                tILModelo=mView.findViewById(R.id.tILModelo);
+                tILConsumo=mView.findViewById(R.id.tILConsumo);
+
 
                 aAPlazas = ArrayAdapter.createFromResource(getApplicationContext(), R.array.opcionesPlaza, R.layout.estilo_spinner);
                 aAPlazas.setDropDownViewResource(R.layout.estilo_items_spinner);
@@ -526,9 +659,92 @@ public class EditarPerfil extends AppCompatActivity implements AdapterView.OnIte
                 mBuilder.setView(mView);
                 final AlertDialog dialog = mBuilder.create();
                 dialog.show();
+
+
+                aceptarAñadirCoche.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        boolean confirmarAñadirCoche=true;
+
+                        int porDefecto=0;
+
+                        //Comprobación de la marca
+                        if(etMarca.getText().toString().trim().equals(""))
+                        {
+                            confirmarAñadirCoche=false;
+                            tILMarca.setError("La marca es obligatoria");
+                        }
+                        else
+                        {
+                            tILMarca.setError(null);
+                        }
+
+                        //Comprobación del modelo
+                        if(etModelo.getText().toString().trim().equals(""))
+                        {
+                            confirmarAñadirCoche=false;
+                            tILModelo.setError("El modelo es obligatoriao");
+                        }
+                        else
+                        {
+                            tILModelo.setError(null);
+                        }
+
+                        //Comprobación de las plazas
+                        if(spPlazas.getSelectedItemPosition()==0)
+                        {
+                            confirmarAñadirCoche=false;
+                            spPlazas.setError("Las plazas son obligatorias");
+                        }
+                        else
+                        {
+                            spPlazas.setError(null);
+                        }
+
+
+                        if(switchCochePorDefecto.isChecked())
+                        {
+                            porDefecto=1;
+                        }
+
+                        //Si no hay errores, añadimos el coche
+                        if(confirmarAñadirCoche)
+                        {
+                            addCoche(new VolleyCallback()
+                            {
+                                @Override
+                                public void onSuccess(String result)
+                                {
+                                    if(result.equals("insertado"))
+                                    {
+                                        Intent editarPerfil = new Intent(getApplicationContext(),EditarPerfil.class);
+                                        startActivity(editarPerfil);
+                                    }
+                                    else
+                                    {
+                                        Toast.makeText(getApplicationContext(),"Ha ocurrido algún error, vuelva a intentarlo en unos minutos por favor",Toast.LENGTH_LONG).show();
+                                    }
+
+                                }
+                            },Integer.parseInt(user.get(SessionManager.KEY_ID_USUARIO)) ,etMarca.getText().toString().trim(), etModelo.getText().toString().trim(), spPlazas.getSelectedItem().toString(), spAños.getSelectedItem().toString(), eTConsumo.getText().toString(), porDefecto);
+                        }
+
+                    }
+                });
+
+                //Cancelar cambiar pass
+                cancelarAñadirCoche.setOnClickListener(new View.OnClickListener()
+                {
+                    @Override
+                    public void onClick(View view)
+                    {
+                        dialog.cancel();
+                    }
+                });
             }
         });
-
+        //FIN AÑADIR COCHE
 
 
         //Usar camara
@@ -555,7 +771,8 @@ public class EditarPerfil extends AppCompatActivity implements AdapterView.OnIte
             case R.id.spCoches:
             {
 
-                Log.d("Item spinner",String.valueOf(i));
+                Log.d("Console Item spinner",String.valueOf(i));
+                Log.d("Console Marca",spCoches.getSelectedItem().toString());
 
                 //Si ha seleccionado algun coche, cargamos los datos de ese coche
                 if(i!=-1)
@@ -571,50 +788,46 @@ public class EditarPerfil extends AppCompatActivity implements AdapterView.OnIte
                     String marca = arrayCoches.get(i).getMarca();
                     String modelo = arrayCoches.get(i).getModelo();
                     String consumo = String.valueOf(arrayCoches.get(i).getConsumo());
-                    int plazas = arrayCoches.get(i).getPlazas();
-                    int años = arrayCoches.get(i).getAño();
+                    String plazas = arrayCoches.get(i).getPlazas();
+                    String años = arrayCoches.get(i).getAño();
+                    int cochePorDefecto= arrayCoches.get(i).getPorDefecto();
 
+
+
+                    //Rellenamos los datos del coche en la vista
                     etMarca.setText(marca);
                     etModelo.setText(modelo);
-                    eTConsumo.setText(consumo);
-                    spPlazas.setSelection(arrayPlazas.indexOf(String.valueOf(plazas+1)));
-                    spAños.setSelection(arrayAños.indexOf(String.valueOf(años+1)));
 
-
-                    /*
-                    //Obtenemos los datos del coche
-                    universidadesBD(new VolleyCallback()
+                    if(consumo!=null && !consumo.equals("null"))
                     {
-                        @Override
-                        public void onSuccess(String result)
-                        {
-                            JSONArray jsonArray= new JSONArray();
+                        eTConsumo.setText(consumo);
+                    }
+                    else
+                    {
+                        eTConsumo.setText("");
+                    }
 
-                            try
-                            {
-                                if(!result.equals("No hay datos"))
-                                {
-                                    jsonArray = new JSONArray(result);
+                    if(años!=null && !años.equals("null"))
+                    {
+                        spAños.setSelection(arrayAños.indexOf(años)+1);       //Los años tienen que ser con +1
+                    }
+                    else
+                    {
+                        spAños.setSelection(0);
+                    }
 
-                                    for(int i = 0; i < jsonArray.length(); i++)
-                                    {
-                                        String nombreUniversidad = jsonArray.getJSONObject(i).getString("nombre");
-                                        Log.d("Nombre Universidad", nombreUniversidad);
-                                        arrayNombreUniversidades.add(nombreUniversidad);
-                                    }
-                                }
-                            }
-                            catch(Exception e)
-                            {
-                                e.printStackTrace();
-                            }
-                        }
-                    },i+1);
+                    spPlazas.setSelection(arrayPlazas.indexOf(plazas)+1); //Las plazas tienen que ser con +1
 
-                    aAUniversidades=new ArrayAdapter<String>(this,android.R.layout.simple_spinner_dropdown_item, arrayNombreUniversidades);
-                    aAUniversidades.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                    spUniversidades.setAdapter(aAUniversidades);
-                    */
+
+                    if(cochePorDefecto==1)
+                    {
+                        switchCochePorDefecto.setChecked(true);
+                    }
+                    else
+                    {
+                        switchCochePorDefecto.setChecked(false);
+                    }
+
 
                 }
                 else
@@ -624,6 +837,7 @@ public class EditarPerfil extends AppCompatActivity implements AdapterView.OnIte
                     eTConsumo.setText("");
                     spPlazas.setSelection(0);
                     spAños.setSelection(0);
+                    switchCochePorDefecto.setChecked(false);
                 }
 
                 /*
@@ -803,6 +1017,97 @@ public class EditarPerfil extends AppCompatActivity implements AdapterView.OnIte
         };
         queue.add(stringRequest);
     }
+
+    //Añadir Coche
+    public void addCoche(final VolleyCallback callback, final int idUsuario, final String marca, final String modelo, final String plazas, final String año, final String consumo, final int porDefecto)
+    {
+        JSONArray jsonArray= new JSONArray();
+
+        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+        String URL = "https://www.rafaelpedrajas.com/android/insertarCoche.php";
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>()
+        {
+            @Override
+            public void onResponse(String response)
+            {
+                Log.d("Console",response);
+                callback.onSuccess(response);
+            }
+        },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error)
+                    {
+                        Log.d("Console","Error en el web service");
+                    }
+                }
+        ){
+            @Override
+            protected Map<String, String> getParams()
+            {
+                Map<String, String>  params = new HashMap<String, String>();
+                //Datos Usuario
+                params.put("idUsuario", String.valueOf(idUsuario));
+                params.put("marca", marca);
+                params.put("modelo", modelo);
+                params.put("plazas", String.valueOf(plazas));
+                params.put("año", String.valueOf(año));
+                params.put("consumo", consumo);
+                params.put("porDefecto", String.valueOf(porDefecto));
+
+                return params;
+            }
+        };
+        queue.add(stringRequest);
+
+    }
+
+    //Añadir Coche
+    public void editarCoche(final VolleyCallback callback)
+    {
+        JSONArray jsonArray= new JSONArray();
+
+        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+        String URL = "https://www.rafaelpedrajas.com/android/editarCoche.php";
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>()
+        {
+            @Override
+            public void onResponse(String response)
+            {
+                Log.d("Console",response);
+                callback.onSuccess(response);
+            }
+        },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error)
+                    {
+                        Log.d("Console","Error en el web service");
+                    }
+                }
+        ){
+            @Override
+            protected Map<String, String> getParams()
+            {
+                String cochesEditados = new Gson().toJson(arrayCoches);
+                String cochesBorrados = new Gson().toJson(arrayCochesBorrados);
+
+                Map<String, String>  params = new HashMap<String, String>();
+                //Datos Usuario
+                params.put("cochesEditados", cochesEditados);
+                params.put("cochesBorrados", cochesBorrados);
+
+                return params;
+            }
+        };
+        queue.add(stringRequest);
+
+    }
+
 
     //----------Funciones para poder usar la camara----
     private boolean mayRequestStoragePermission() {
