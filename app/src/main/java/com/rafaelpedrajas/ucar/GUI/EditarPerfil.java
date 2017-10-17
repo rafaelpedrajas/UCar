@@ -539,6 +539,10 @@ public class EditarPerfil extends AppCompatActivity implements AdapterView.OnIte
 
                                 switchCochePorDefecto=mView.findViewById(R.id.switchCochePorDefecto);
 
+                                tILMarca=mView.findViewById(R.id.tILMarca);
+                                tILModelo=mView.findViewById(R.id.tILModelo);
+                                tILConsumo=mView.findViewById(R.id.tILConsumo);
+
 
                                 //Recorremos la lista de coches del usuario
                                 arrayNombreCoches.clear();
@@ -582,7 +586,80 @@ public class EditarPerfil extends AppCompatActivity implements AdapterView.OnIte
                                     @Override
                                     public void onClick(View view)
                                     {
-                                        dialog.cancel();
+                                        boolean confirmarEditarCoche=true;
+
+                                        int porDefecto=0;
+
+                                        //Comprobación de la marca
+                                        if(etMarca.getText().toString().trim().equals(""))
+                                        {
+                                            confirmarEditarCoche=false;
+                                            tILMarca.setError("La marca es obligatoria");
+                                        }
+                                        else
+                                        {
+                                            tILMarca.setError(null);
+                                        }
+
+                                        //Comprobación del modelo
+                                        if(etModelo.getText().toString().trim().equals(""))
+                                        {
+                                            confirmarEditarCoche=false;
+                                            tILModelo.setError("El modelo es obligatoriao");
+                                        }
+                                        else
+                                        {
+                                            tILModelo.setError(null);
+                                        }
+
+                                        //Comprobación de las plazas
+                                        if(spPlazas.getSelectedItemPosition()==0)
+                                        {
+                                            confirmarEditarCoche=false;
+                                            spPlazas.setError("Las plazas son obligatorias");
+                                        }
+                                        else
+                                        {
+                                            spPlazas.setError(null);
+                                        }
+
+
+                                        if(confirmarEditarCoche)
+                                        {
+                                            int idCocheActual = spCoches.getSelectedItemPosition() - 1;
+
+                                            arrayCoches.get(idCocheActual).setMarca(etMarca.getText().toString().trim());
+                                            arrayCoches.get(idCocheActual).setModelo(etModelo.getText().toString().trim());
+                                            arrayCoches.get(idCocheActual).setPlazas(spPlazas.getSelectedItem().toString().trim());
+                                            arrayCoches.get(idCocheActual).setAño(spAños.getSelectedItem().toString().trim());
+                                            arrayCoches.get(idCocheActual).setConsumo(eTConsumo.getText().toString().trim());
+                                            if(switchCochePorDefecto.isChecked())
+                                            {
+                                                arrayCoches.get(idCocheActual).setPorDefecto(1);
+                                            }
+                                            else
+                                            {
+                                                arrayCoches.get(idCocheActual).setPorDefecto(0);
+                                            }
+
+                                            editarCoche(new VolleyCallback()
+                                            {
+                                                @Override
+                                                public void onSuccess(String result)
+                                                {
+                                                    if(result.equals("insertado"))
+                                                    {
+                                                        Intent editarPerfil = new Intent(getApplicationContext(), EditarPerfil.class);
+                                                        startActivity(editarPerfil);
+                                                    }
+                                                    else
+                                                    {
+                                                        Toast.makeText(getApplicationContext(), "Ha ocurrido algún error, vuelva a intentarlo en unos minutos por favor", Toast.LENGTH_LONG).show();
+                                                    }
+
+                                                }
+                                            });
+                                        }
                                     }
                                 });
 
@@ -1077,7 +1154,7 @@ public class EditarPerfil extends AppCompatActivity implements AdapterView.OnIte
             @Override
             public void onResponse(String response)
             {
-                Log.d("Console",response);
+                Log.d("Console editar coche",response);
                 callback.onSuccess(response);
             }
         },
