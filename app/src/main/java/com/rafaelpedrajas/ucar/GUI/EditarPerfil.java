@@ -631,7 +631,15 @@ public class EditarPerfil extends AppCompatActivity implements AdapterView.OnIte
                                             arrayCoches.get(idCocheActual).setMarca(etMarca.getText().toString().trim());
                                             arrayCoches.get(idCocheActual).setModelo(etModelo.getText().toString().trim());
                                             arrayCoches.get(idCocheActual).setPlazas(spPlazas.getSelectedItem().toString().trim());
-                                            arrayCoches.get(idCocheActual).setAño(spAños.getSelectedItem().toString().trim());
+                                            if(spAños.getSelectedItemPosition()!=0)
+                                            {
+                                                //Si no tiene seleccionado ningun año, se estaba enviando la palabra "año" en vez de vacio
+                                                arrayCoches.get(idCocheActual).setAño(spAños.getSelectedItem().toString().trim());
+                                            }
+                                            else
+                                            {
+                                                arrayCoches.get(idCocheActual).setAño("");
+                                            }
                                             arrayCoches.get(idCocheActual).setConsumo(eTConsumo.getText().toString().trim());
                                             if(switchCochePorDefecto.isChecked())
                                             {
@@ -647,14 +655,14 @@ public class EditarPerfil extends AppCompatActivity implements AdapterView.OnIte
                                                 @Override
                                                 public void onSuccess(String result)
                                                 {
-                                                    if(result.equals("insertado"))
+                                                    if(result.equals("editado"))
                                                     {
                                                         Intent editarPerfil = new Intent(getApplicationContext(), EditarPerfil.class);
                                                         startActivity(editarPerfil);
                                                     }
                                                     else
                                                     {
-                                                        Toast.makeText(getApplicationContext(), "Ha ocurrido algún error, vuelva a intentarlo en unos minutos por favor", Toast.LENGTH_LONG).show();
+                                                        Toast.makeText(getApplicationContext(), "Ha ocurrido un error, vuelva a intentarlo en unos minutos por favor", Toast.LENGTH_LONG).show();
                                                     }
 
                                                 }
